@@ -1,4 +1,4 @@
-import NameInput from "@/components/form/nameInput";
+import NameInput from "@/components/ui/form/nameInput";
 import React from "react";
 export default function Page() {
   return (
