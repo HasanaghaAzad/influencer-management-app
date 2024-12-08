@@ -3,15 +3,14 @@ import MenuButton from "@/components/ui/menu/button";
 import DropdownButton from "@/components/ui/menu/dropdownButton";
 import Menu from "@/components/ui/menu/menu";
 import MobileMenu from "@/components/ui/menu/mobileMenu";
+import Link from "next/link";
+import {usePathname} from "next/navigation";
 
 const user = {
   name: "Steve Jobs",
   email: "jobs@example.com",
 };
-const navigation = [
-  {label: "Influencers List", href: "#", current: true},
-  {label: "Create Influencer", href: "#", current: false},
-];
+
 const userNavigation = [
   {label: "Your Influencers List", href: "#"},
   {label: "Sign out", href: "#"},
@@ -21,7 +20,14 @@ function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
 }
 
-export function Header({pageTitle}: {pageTitle: string}) {
+export function Header() {
+  const pathname = usePathname();
+  const navigation = [
+    {label: "Influencers List", href: "/", current: pathname === "/"},
+    {label: "Create Influencer", href: "/create", current: pathname === "/create"},
+  ];
+
+  const activePageTitle = navigation.find((item) => item.current)?.label;
   return (
     <>
       <div className="bg-gray-800">
@@ -32,9 +38,9 @@ export function Header({pageTitle}: {pageTitle: string}) {
               <div className="hidden md:block">
                 <div className="ml-10 flex items-baseline space-x-4">
                   {navigation.map((item) => (
-                    <a key={item.label} href={item.href} aria-current={item.current ? "page" : undefined} className={classNames(item.current ? "bg-gray-900 text-white" : "text-gray-300 hover:bg-gray-700 hover:text-white", "rounded-md px-3 py-2 text-sm font-medium")}>
+                    <Link key={item.label} href={item.href} aria-current={item.current ? "page" : undefined} className={classNames(item.current ? "bg-gray-900 text-white" : "text-gray-300 hover:bg-gray-700 hover:text-white", "rounded-md px-3 py-2 text-sm font-medium")}>
                       {item.label}
-                    </a>
+                    </Link>
                   ))}
                 </div>
               </div>
@@ -90,7 +96,7 @@ export function Header({pageTitle}: {pageTitle: string}) {
 
       <header>
         <div className="mx-auto max-w-7xl px-4 my-4 py-6 sm:px-6 lg:px-8">
-          <h1 className="text-3xl font-bold tracking-tight">{pageTitle}</h1>
+          <h1 className="text-3xl font-bold tracking-tight">{activePageTitle}</h1>
         </div>
       </header>
     </>
