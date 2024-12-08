@@ -1,7 +1,9 @@
-const NameInput = () => {
+import {Label} from "../shared/types/formTypes";
+
+export function NameInput({label = {labelText: "Name", isVisible: true}}: {label?: Label}) {
   return (
     <>
-      <label className="mb-[10px] block text-base font-medium text-dark dark:text-white">Name</label>
+      <label className={`mb-[3px] block text-base font-medium text-gray-700 dark:text-white` + (label.isVisible === false ? " hidden" : "")}>{label.labelText}</label>
       <div className="relative">
         <input type="text" placeholder="Devid" className="w-full bg-transparent rounded-md border border-stroke dark:border-dark-3 py-[10px] pr-3 pl-12 text-dark-6 outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-gray-2" />
         <span className="absolute top-1/2 left-4 -translate-y-1/2">
@@ -12,5 +14,5 @@ const NameInput = () => {
       </div>
     </>
   );
-};
+}
 export default NameInput;

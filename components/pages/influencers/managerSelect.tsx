@@ -1,5 +1,5 @@
-'use client';
-import { Select, SelectedValue } from "@/components/ui/form/select";
+"use client";
+import {Select, SelectedValue} from "@/components/ui/form/select";
 
 export function ManagerSelect({selectedManagerId}: {selectedManagerId: SelectedValue}) {
   const allManagers = [
@@ -12,7 +12,7 @@ export function ManagerSelect({selectedManagerId}: {selectedManagerId: SelectedV
   ];
   return (
     <Select
-      label={{labelText: "Select Manager"}}
+      label={{labelText: "Select Manager", isVisible: false}}
       preSelectedValue={selectedManagerId}
       options={allManagers.map((manager) => ({
         title: manager.name,

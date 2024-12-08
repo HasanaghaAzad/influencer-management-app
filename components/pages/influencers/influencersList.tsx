@@ -1,6 +1,8 @@
 import Table from "@/components/ui/table";
 import Link from "next/link";
-import { ManagerSelect } from "./managerSelect";
+import {ManagerSelect} from "./managerSelect";
+import NameInput from "@/components/ui/form/nameInput";
+import Button from "@/components/ui/button";
 
 export default function InfluencersList() {
   const influencersData = {
@@ -87,6 +89,27 @@ export default function InfluencersList() {
 
   return (
     <>
+      <div className="flex my-3 items-end">
+        <div className="w-2/5">
+          <h2 className="text-xl font-bold tracking-tight text-zinc-700">List of all created here Influencers</h2>
+        </div>
+        <div className="flex-1">
+          <div className="flex items-end gap-x-4">
+            <div className="flex-1 text-right">
+              <b>Filter by:</b>
+            </div>
+            <div className="flex-1">
+              <NameInput label={{labelText: "Influencer name"}} />
+            </div>
+            <div className="flex-1">
+              <NameInput label={{labelText: "Manager name"}} />
+            </div>
+            <div className="flex-1 h-auto">
+              <Button text="Apply filters" />
+            </div>
+          </div>
+        </div>
+      </div>
       <Table
         data={{
           columns: influencersData.columns,
@@ -110,7 +133,7 @@ export default function InfluencersList() {
                 ))}
               </div>
             ),
-            manager: (<ManagerSelect selectedManagerId={ row.manager.id} />),
+            manager: <ManagerSelect selectedManagerId={row.manager.id} />,
           })),
         }}
       />
