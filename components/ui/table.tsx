@@ -24,7 +24,7 @@ const Table = ({data}: {data: TableData}) => {
   return (
     <section>
       <div className="container">
-        <div className="flex flex-wrap -mx-4">
+        <div className="flex flex-wrap">
           <div className="w-full ">
             <div className="max-w-full overflow-x-auto">
               <table className="w-full table-auto">
