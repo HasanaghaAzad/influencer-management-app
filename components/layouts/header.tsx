@@ -28,9 +28,7 @@ export function Header({pageTitle}: {pageTitle: string}) {
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex h-16 items-center justify-between">
             <div className="flex items-center">
-              <div className="shrink-0 text-white font-bold rounded-md px-3 py-2 border-2 border-gray-300">
-                Influencer Management App
-              </div>
+              <div className="shrink-0 text-white font-bold rounded-md px-3 py-2 border-2 border-gray-300">Influencer Management App</div>
               <div className="hidden md:block">
                 <div className="ml-10 flex items-baseline space-x-4">
                   {navigation.map((item) => (
@@ -55,7 +53,6 @@ export function Header({pageTitle}: {pageTitle: string}) {
               </div>
             </div>
             <div className="-mr-2 flex md:hidden">
-          
               <MobileMenu items={navigation} />
             </div>
           </div>
@@ -91,9 +88,9 @@ export function Header({pageTitle}: {pageTitle: string}) {
         </div>
       </div>
 
-      <header className="bg-white">
+      <header>
         <div className="mx-auto max-w-7xl px-4 my-4 py-6 sm:px-6 lg:px-8">
-          <h1 className="text-3xl font-bold tracking-tight text-gray-900">{pageTitle}</h1>
+          <h1 className="text-3xl font-bold tracking-tight">{pageTitle}</h1>
         </div>
       </header>
     </>
