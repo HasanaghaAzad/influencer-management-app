@@ -2,6 +2,7 @@ import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import knex from "./db";
 import {cookies} from "next/headers";
+import { errorMessages } from "./messages/errorMessages";
 
 const JWT_SECRET = process.env.JWT_SECRET || "";
 const JWT_EXPIRES = process.env.JWT_TOKEN_EXPIRES;
@@ -13,9 +14,7 @@ interface User {
 }
 
 export const authenticateUser = async (email: string, password: string): Promise<string | null> => {
-  const errorMessages = {
-    invalid_email_or_password: "Invalid email or password",
-  };
+
 
   const user = await knex<User>("users").where({email}).first();
 
