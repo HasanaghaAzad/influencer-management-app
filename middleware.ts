@@ -1,9 +1,10 @@
 import {NextResponse} from "next/server";
 import type {NextRequest} from "next/server";
-import {isAuthenticated} from "./lib/auth";
+import { checkSession } from "./app/lib/session";
 
-export function middleware(req: NextRequest) {
-  const authStatus = isAuthenticated(req);
+
+export async function middleware(req: NextRequest) {
+  const authStatus = await checkSession(req);
   if (!authStatus) {
     return NextResponse.redirect(new URL("/login", req.url));
   }
@@ -19,6 +20,6 @@ export const config = {
      * - _next/image (image optimization files)
      * - favicon.ico, sitemap.xml, robots.txt (metadata files)
      */
-    "/((?!api|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt).*)",
+    "/((?!api|login|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt).*)",
   ],
 };

@@ -1,6 +1,9 @@
-import {NextResponse} from "next/server";
-import {authenticateUser} from "../../../lib/auth";
-import {errorMessages} from "@/lib/messages/errorMessages";
+export const runtime = 'nodejs';
+
+import { NextResponse } from "next/server";
+
+import {errorMessages} from "@/app/lib/messages/errorMessages";
+import { authenticateUser } from "@/app/actions/auth";
 
 export async function POST(req: Request) {
   try {
