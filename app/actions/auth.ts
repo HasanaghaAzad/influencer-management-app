@@ -1,16 +1,17 @@
 import bcrypt from "bcryptjs";
-import {knexClient as knex} from "@/app/lib/db";
+import knex from "@/app/lib/db";
 
 import {errorMessages} from "@/app/lib/messages/errorMessages";
-import { createSession } from "../lib/session";
+import { createSession, deleteSession } from "../lib/session";
 
 interface User {
   id: number;
   email: string;
   password: string;
 }
+type Token = string;
 
-export const authenticateUser = async (email: string, password: string): Promise<string | null> => {
+export const authenticateUser = async (email: string, password: string): Promise<Token | null> => {
   const user = await knex<User>("users").where({email}).first();
 
   if (!user) throw new Error(errorMessages["invalid_email_or_password"]);
@@ -20,3 +21,7 @@ export const authenticateUser = async (email: string, password: string): Promise
 
   return createSession(user);
 };
+
+export async function logout() {
+  deleteSession()
+}

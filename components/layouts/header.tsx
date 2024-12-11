@@ -5,16 +5,14 @@ import Menu from "@/components/ui/menu/menu";
 import MobileMenu from "@/components/ui/menu/mobileMenu";
 import Link from "next/link";
 import {usePathname} from "next/navigation";
+import {useRouter} from "next/navigation";
+
+// import { logout } from '@/app/actions/auth';
 
 const user = {
   name: "Steve Jobs",
   email: "jobs@example.com",
 };
-
-const userNavigation = [
-  {label: "Your Influencers List", href: "#"},
-  {label: "Sign out", href: "#"},
-];
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
@@ -22,9 +20,23 @@ function classNames(...classes: string[]) {
 
 export function Header() {
   const pathname = usePathname();
+  const router = useRouter();
   const navigation = [
     {label: "Influencers List", href: "/", current: pathname === "/"},
     {label: "Create Influencer", href: "/create", current: pathname === "/create"},
+  ];
+  const handleLogout = async (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+    event.preventDefault();
+    try {
+      await fetch("/api/logout", {method: "POST"});
+      router.push("/dashboard");
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (error) {}
+  };
+
+  const userNavigation = [
+    {label: "Your Influencers List", href: "#"},
+    {label: "Sign out", href: "#", onClick: handleLogout},
   ];
 
   const activePageTitle = navigation.find((item) => item.current)?.label;

@@ -1,9 +1,7 @@
-export const runtime = 'nodejs';
-
-import { NextResponse } from "next/server";
+import {NextResponse} from "next/server";
 
 import {errorMessages} from "@/app/lib/messages/errorMessages";
-import { authenticateUser } from "@/app/actions/auth";
+import {authenticateUser} from "@/app/actions/auth";
 
 export async function POST(req: Request) {
   try {
@@ -16,9 +14,10 @@ export async function POST(req: Request) {
       return NextResponse.json({error: errorMessages["invalid_email_or_password"]}, {status: 401});
     }
 
-    return NextResponse.json({token});
+    const response = NextResponse.json({token});
+    response.cookies.set("authToken", token, {httpOnly: true});
+    return response;
   } catch (error) {
-    
-    return NextResponse.json({error: (error as Error).message}, {status: 500});
+    return NextResponse.json({error: (error as Error).message}, {status: 401});
   }
 }

@@ -35,7 +35,14 @@ The easiest way to deploy your Next.js app is to use the [Vercel Platform](https
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
 
+# Build Authentification
 
+Generate a secret key.
+
+openssl rand -base64 32
+
+Store new generated secret key in .env as JWT_SECRET
+JWT_SECRET=your_secret_key
 
 # Seed Users
 

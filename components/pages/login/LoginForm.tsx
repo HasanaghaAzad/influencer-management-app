@@ -1,4 +1,5 @@
-import React, {useState} from "react";
+'use client';
+import React, { useState } from "react";
 
 type LoginFormProps = {
   onSubmit: (email: string, password: string) => Promise<void>;

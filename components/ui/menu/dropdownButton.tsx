@@ -21,17 +21,13 @@ const useClickOutside = (handler: () => void) => {
   return domNode;
 };
 // Handler hook for when Outside click dropdown close End Code====>>
+type DropdownButtonItem = {
+  label: string;
+  href: string;
+  onClick?: (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => Promise<void>;
+};
 
-const DropdownButton = ({
-  title,
-  items,
-}: {
-  title: string;
-  items: {
-    label: string;
-    href: string;
-  }[];
-}) => {
+const DropdownButton = ({title, items}: {title: string; items: DropdownButtonItem[]}) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
   const domNode = useClickOutside(() => {
@@ -50,10 +46,10 @@ const DropdownButton = ({
               </svg>
             </span>{" "}
           </button>
-          
+
           <div className={`shadow-1 dark:shadow-box-dark absolute right-0 mt-5 z-40 w-[175px] rounded-md bg-dark dark:bg-dark-2 py-[10px] transition-all bg-gray-800 text-white  ${dropdownOpen ? "top-full opacity-100 visible" : "top-[110%] invisible opacity-0"}`}>
             {items.map((item, index) => (
-              <DropdownItem label={item.label} href={item.href} key={index} />
+              <DropdownItem label={item.label} href={item.href} key={index} onClick={item.onClick} />
             ))}
           </div>
         </div>
@@ -64,9 +60,9 @@ const DropdownButton = ({
 
 export default DropdownButton;
 
-const DropdownItem = ({label, href}: {label: string; href: string}) => {
+const DropdownItem = ({label, href, onClick}: {label: string; href: string; onClick?:DropdownButtonItem['onClick']}) => {
   return (
-    <a href={href} className="block py-2 px-5 text-sm text-dark-5 hover:text-white hover:bg-gray-700">
+    <a href={href} className="block py-2 px-5 text-sm text-dark-5 hover:text-white hover:bg-gray-700" onClick={onClick}>
       {label}
     </a>
   );
