@@ -6,10 +6,10 @@ const secretKey = process.env.JWT_SECRET;
 const encodedKey = new TextEncoder().encode(secretKey);
 const JWT_EXPIRES = process.env.JWT_TOKEN_EXPIRES || "1d";
 
-type UserSessionData = {id: number; email: string};
+type UserId = number;
 
-export async function createSession(user: UserSessionData) {
-  const token = new SignJWT(user).setProtectedHeader({alg: "HS256"}).setIssuedAt().setExpirationTime(JWT_EXPIRES).sign(encodedKey);
+export async function createSession(userId: UserId) {
+  const token = new SignJWT({userId}).setProtectedHeader({alg: "HS256"}).setIssuedAt().setExpirationTime(JWT_EXPIRES).sign(encodedKey);
   return token;
 }
 
@@ -31,7 +31,7 @@ export async function checkSession() {
 }
 
 export async function deleteSession() {
-  const cookieStore = await cookies()
-  cookieStore.delete('authToken');
-  cookieStore.delete('session');
+  const cookieStore = await cookies();
+  cookieStore.delete("authToken");
+  cookieStore.delete("session");
 }

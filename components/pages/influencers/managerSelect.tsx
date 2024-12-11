@@ -1,21 +1,42 @@
 "use client";
-import {Select, SelectedValue} from "@/components/ui/form/select";
+import { getAllUsers } from "@/app/services/userService";
+import { Select, SelectedValue } from "@/components/ui/form/select";
+import { Label } from "@/components/ui/shared/types/formTypes";
+import { useEffect, useState } from "react";
 
-export function ManagerSelect({selectedManagerId}: {selectedManagerId: SelectedValue}) {
-  const allManagers = [
-    {id: 1, name: "Nick Fury"},
-    {id: 2, name: "Pepper Potts"},
-    {id: 3, name: "Clint Barton"},
-    {id: 4, name: "Betty Ross"},
-    {id: 5, name: "Odin"},
-    {id: 6, name: "Shuri"},
-  ];
+type AllUsersList = {
+  id: number;
+  first_name: string;
+  last_name: string;
+}[];
+export function ManagerSelect({
+  label,
+  selectedManagerId,
+}: {
+  label?: Label;
+  selectedManagerId?: SelectedValue;
+}) {
+  const [allManagersList, setManagers] = useState([] as AllUsersList);
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const allUsers = await getAllUsers();
+        setManagers(allUsers);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    fetchData();
+  }, []);
+
   return (
     <Select
-      label={{labelText: "Select Manager", isVisible: false}}
+      label={label || { labelText: "Select Manager", isVisible: false }}
       preSelectedValue={selectedManagerId}
-      options={allManagers.map((manager) => ({
-        title: manager.name,
+      options={allManagersList.map((manager) => ({
+        title: manager.first_name + " " + manager.last_name,
         value: manager.id,
       }))}
     />
