@@ -1,3 +1,7 @@
+if (!process.env.POSTGRES_DB) {
+  require('dotenv').config();
+}
+
 module.exports = {
   development: {
     client: "pg",
