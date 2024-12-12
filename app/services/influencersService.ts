@@ -7,9 +7,18 @@ interface getAllInfluencersRouteResponse {
   data: InfluencersQueryRow[];
 }
 
-export const getAllInfluencers = async () => {
+type Filters = {
+  influencerName: string;
+  managerName: string;
+};
+
+export const getAllInfluencers = async (filters?:Filters) => {
   try {
-    const response = await fetch("/api/influencers/");
+    const queryParams = new URLSearchParams({
+      ...(filters?.influencerName && { influencerName: filters.influencerName }),
+      ...(filters?.managerName && { managerName: filters.managerName }),
+    });
+    const response = await fetch(`/api/influencers/?${queryParams.toString()}`);
     if (!response.ok) {
       throw new Error("Failed to fetch influencers data");
     }

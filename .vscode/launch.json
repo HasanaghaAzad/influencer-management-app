@@ -11,31 +11,21 @@
       "name": "Next.js: debug client-side",
       "type": "chrome",
       "request": "launch",
-      "url": "http://localhost:3000"
-    },
-    {
-      "name": "Next.js: debug client-side (Firefox)",
-      "type": "firefox",
-      "request": "launch",
       "url": "http://localhost:3000",
-      "reAttach": true,
-      "pathMappings": [
-        {
-          "url": "webpack://_N_E",
-          "path": "${workspaceFolder}"
-        }
-      ]
+      "webRoot": "${workspaceFolder}"
     },
-    {
+     {
       "name": "Next.js: debug full stack",
       "type": "node",
       "request": "launch",
       "program": "${workspaceFolder}/node_modules/.bin/next",
-      "runtimeArgs": ["--inspect"],
+      "runtimeArgs": ["--inspect-brk"],
+      "env": {
+        "NODE_ENV": "development"
+      },
       "skipFiles": ["<node_internals>/**"],
       "serverReadyAction": {
-        "action": "debugWithEdge",
-        "killOnServerStop": true,
+        "action": "debugWithChrome",
         "pattern": "- Local:.+(https?://.+)",
         "uriFormat": "%s",
         "webRoot": "${workspaceFolder}"

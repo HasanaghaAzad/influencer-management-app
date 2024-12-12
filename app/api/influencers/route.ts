@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import knex from "@/app/lib/db";
 
 export interface InfluencersQueryRow {
@@ -15,8 +15,14 @@ export interface InfluencersQueryRow {
   }[];
 }
 
-export async function GET() {
+export async function GET(req: NextRequest) {
   try {
+    const url = new URL(req.url);
+    const filters = {
+      influencerName: url.searchParams.get("influencerName"),
+      managerName: url.searchParams.get("managerName"),
+    };
+
     const influencers: InfluencersQueryRow[] = await knex("influencers")
       .select(
         "influencers.id",
@@ -37,11 +43,31 @@ export async function GET() {
       )
       .leftJoin("social_pages", "influencers.id", "social_pages.influencer_id")
       .leftJoin("users", "influencers.manager_id", "users.id")
-      .groupBy(
-        "influencers.id",
-        "users.first_name",
-        "users.last_name"
-      )
+      .modify((query) => {
+        if (filters.influencerName) {
+          query.where(function () {
+            this.where(
+              "influencers.first_name",
+              "ilike",
+              `%${filters.influencerName}%`
+            ).orWhere(
+              "influencers.last_name",
+              "ilike",
+              `%${filters.influencerName}%`
+            );
+          });
+        }
+        if (filters.managerName) {
+          query.where(function () {
+            this.where(
+              "users.first_name",
+              "ilike",
+              `%${filters.managerName}%`
+            ).orWhere("users.last_name", "ilike", `%${filters.managerName}%`);
+          });
+        }
+      })
+      .groupBy("influencers.id", "users.first_name", "users.last_name")
       .orderBy("influencers.id", "desc");
 
     return NextResponse.json({ success: true, data: influencers });
