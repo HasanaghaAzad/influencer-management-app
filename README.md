@@ -6,7 +6,26 @@ Small app for influencers management.
 2. Email: odin.borson@asgard.com | Password: hela
 
 
-# How to run
+# How to build and run
+
+## Create .env file
+
+Create .env file in the root. .env file should contain these environment variables
+
+POSTGRES_USER=
+POSTGRES_PASSWORD=
+POSTGRES_DB=
+POSTGRES_PORT=
+
+JWT_SECRET=
+JWT_TOKEN_EXPIRES=7d
+
+
+
+For prod it can contain also this variable
+
+PROD_DATABASE_URL=
+
 
 ## Build Authentification
 
@@ -16,6 +35,10 @@ openssl rand -base64 32
 
 Store new generated secret key in .env as JWT_SECRET
 JWT_SECRET=your_secret_key
+
+
+##
+
 
 
 npm run dev
