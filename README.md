@@ -12,6 +12,7 @@ Small app for influencers management.
 
 Create .env file in the root. .env file should contain these environment variables
 
+```bash
 POSTGRES_USER=
 POSTGRES_PASSWORD=
 POSTGRES_DB=
