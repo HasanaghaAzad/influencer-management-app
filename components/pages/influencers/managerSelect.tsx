@@ -10,9 +10,11 @@ type AllUsersList = {
   last_name: string;
 }[];
 export function ManagerSelect({
+  selectName,
   label,
   selectedManagerId,
 }: {
+  selectName?: string;
   label?: Label;
   selectedManagerId?: SelectedValue;
 }) {
@@ -33,6 +35,7 @@ export function ManagerSelect({
 
   return (
     <Select
+      selectName={selectName}
       label={label || { labelText: "Select Manager", isVisible: false }}
       preSelectedValue={selectedManagerId}
       options={allManagersList.map((manager) => ({

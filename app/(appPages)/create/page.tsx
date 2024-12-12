@@ -1,6 +1,7 @@
-import CreateInfluencer from "@/components/pages/influencers/createInfluencer";
+"use client";
+import CreateInfluencerForm from "@/components/pages/influencers/CreateInfluencerForm";
 
 import React from "react";
 export default function Page() {
-  return <CreateInfluencer />;
+  return <CreateInfluencerForm />;
 }

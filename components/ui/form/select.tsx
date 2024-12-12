@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from "react";
-import {Label} from "../shared/types/formTypes";
+import React, { useEffect, useState } from "react";
+import { Label } from "../shared/types/formTypes";
 
 export type Options = {
   title: string;
@@ -8,28 +8,52 @@ export type Options = {
 
 export type SelectedValue = number;
 
-export function Select({label = {labelText: "Select", isVisible: true}, options, preSelectedValue}: {label?: Label; options: Options; preSelectedValue?: SelectedValue}) {
-  const [selectedValue, setSelectedValue] = useState(preSelectedValue?.toString());
+export function Select({
+  label = { labelText: "Select", isVisible: true },
+  options,
+  preSelectedValue,
+  selectName,
+}: {
+  label?: Label;
+  options: Options;
+  preSelectedValue?: SelectedValue;
+  selectName?: string;
+}) {
+  const [selectedValue, setSelectedValue] = useState(
+    preSelectedValue?.toString()
+  );
 
-   useEffect(() => {
+  useEffect(() => {
     if (preSelectedValue !== undefined) {
       setSelectedValue(preSelectedValue.toString());
     }
-   }, [preSelectedValue]);
-  
+  }, [preSelectedValue]);
+
   const onchangeHandler = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    console.log('onchangeHandler');
+    console.log("onchangeHandler");
     setSelectedValue(e.target.value);
   };
-  console.log('selectedValue');
+  console.log("selectedValue");
   console.log(preSelectedValue);
   console.log(selectedValue);
-  console.log('selectedValue');
+  console.log("selectedValue");
   return (
     <div>
-      <label className={`block text-sm font-medium text-gray-700` + (label.isVisible === false ? " hidden" : "")}>{label.labelText}</label>
+      <label
+        className={
+          `block text-sm font-medium text-gray-700` +
+          (label.isVisible === false ? " hidden" : "")
+        }
+      >
+        {label.labelText}
+      </label>
 
-      <select className="mt-1 relative z-20 w-full appearance-none rounded-lg border border-stroke dark:border-dark-3 bg-transparent py-[10px] px-5 text-dark-6 outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-gray-2" value={selectedValue} onChange={onchangeHandler}>
+      <select
+        className="mt-1 relative z-20 w-full appearance-none rounded-lg border border-stroke dark:border-dark-3 bg-transparent py-[10px] px-5 text-dark-6 outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-gray-2"
+        value={selectedValue}
+        onChange={onchangeHandler}
+        name={selectName}
+      >
         {options.map((option) => (
           <option value={option.value} key={option.value}>
             {option.title}
