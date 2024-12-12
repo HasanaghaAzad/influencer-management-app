@@ -20,30 +20,33 @@ POSTGRES_PORT=
 
 JWT_SECRET=
 JWT_TOKEN_EXPIRES=7d
-
+```
 
 
 For prod it can contain also this variable
-
+```bash
 PROD_DATABASE_URL=
-
+```
 
 ## Build Authentification
 
 Generate a secret key.
 
+```bash
 openssl rand -base64 32
+```
 
 Store new generated secret key in .env as JWT_SECRET
+```
 JWT_SECRET=your_secret_key
-
+```
 
 ##
 
 
-
+```
 npm run dev
-
+```
 http://localhost:3000
 
 ## Screenshots
