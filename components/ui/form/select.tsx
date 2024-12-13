@@ -11,35 +11,21 @@ export type SelectedValue = string | number;
 export function Select({
   label = { labelText: "Select", isVisible: true },
   options,
-  preSelectedValue,
+  defaultValue,
   selectName,
   onChange,
 }: {
   label?: Label;
   options: Options;
-  preSelectedValue?: SelectedValue;
+  defaultValue?: SelectedValue;
   selectName?: string;
-  onChange?: (newval: string | number) => void;
+  onChange?: (value:  React.ChangeEvent<HTMLSelectElement>) => void;
 }) {
-  const [selectedValue, setSelectedValue] = useState(
-    preSelectedValue?.toString()
-  );
-
-  useEffect(() => {
-    if (preSelectedValue !== undefined) {
-      setSelectedValue(preSelectedValue.toString());
+  const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    if (onChange) {
+      onChange(event);
     }
-  }, [preSelectedValue]);
-
-  const onchangeHandler = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    console.log("onchangeHandler");
-    setSelectedValue(e.target.value);
-    if (onChange) onChange(e.target.value);
   };
-  console.log("selectedValue");
-  console.log(preSelectedValue);
-  console.log(selectedValue);
-  console.log("selectedValue");
   return (
     <div>
       <label
@@ -53,8 +39,8 @@ export function Select({
 
       <select
         className="mt-1 relative z-20 w-full appearance-none rounded-lg border border-stroke dark:border-dark-3 bg-transparent py-[10px] px-5 text-dark-6 outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-gray-2"
-        value={selectedValue}
-        onChange={onchangeHandler}
+        value={defaultValue || 0}
+        onChange={handleChange}
         name={selectName}
       >
         {options.map((option) => (

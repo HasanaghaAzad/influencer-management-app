@@ -14,7 +14,7 @@ export const createInfluencer = async (
       .insert({
         first_name: firstName,
         last_name: lastName,
-        manager_id: managerId,
+        manager_id: Number(managerId) || null,
       })
       .returning("id");
 
@@ -55,7 +55,7 @@ export const changeManager = async ({ influencerId, newManagerId }:ChangeManager
     // Update the influencer's manager_id in the database
     await knex("influencers")
       .where({ id: influencerId })
-      .update({ manager_id: newManagerId });
+      .update({ manager_id:  Number(newManagerId) || null });
 
     return { success: true };
   } catch (error) {

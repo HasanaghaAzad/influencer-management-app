@@ -84,6 +84,9 @@ export default function InfluencersList() {
   ) => {
     console.log("save");
     try {
+      console.log('setManager');
+      console.log(influencerId);
+      console.log(newManagerId);
       const savedNewManager = await setManager(influencerId, newManagerId);
       if (savedNewManager.success) {
         setToastMessage("Manager changed successfully!");
@@ -181,7 +184,7 @@ export default function InfluencersList() {
               ),
               manager: (
                 <ManagerSelect
-                  preSelectedManagerId={row.manager.id}
+                  defaultValue={row.manager.id}
                   influencerId={row.id}
                   onSave={(a, b) => {
                     console.log("onSave");

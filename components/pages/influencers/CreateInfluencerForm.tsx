@@ -81,7 +81,8 @@ console.log("Current state:", state);
         <ManagerSelect
           selectName="managerId"
           label={{ labelText: "Manager", isVisible: true }}
-          preSelectedManagerId={state?.values?.managerId || preSelectedManager}
+          defaultValue={state?.values?.managerId || preSelectedManager}
+          error={state?.errors?.managerId?.join("<br>")}
         />
 
         <button

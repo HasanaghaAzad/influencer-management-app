@@ -18,21 +18,23 @@ type OnSaveFunction = (
 export function ManagerSelect({
   selectName,
   label,
-  preSelectedManagerId,
+  defaultValue,
   influencerId,
+  error,
   onSave,
 }: {
   selectName?: string;
   label?: Label;
   influencerId?: number;
-  preSelectedManagerId?: SelectedValue;
+  defaultValue?: SelectedValue;
+  error?: string;
   onSave?: OnSaveFunction;
 }) {
   const [allManagersList, setManagers] = useState([] as AllUsersList);
-  const [selectedManagerId, setSelectedManagerId] =
-    useState(preSelectedManagerId);
+  const [selectedManager, setSelectedManager] = useState(defaultValue);
+  const [savedManager, setSavedManager] = useState(defaultValue);
   const [showSaveButton, setShowSaveButton] = useState(
-    preSelectedManagerId !== selectedManagerId
+    defaultValue !== savedManager
   );
 
   useEffect(() => {
@@ -48,37 +50,39 @@ export function ManagerSelect({
     fetchData();
   }, []);
 
+  const handleSave = async () => {
+    if (onSave && influencerId) {
+      const savedNewManager = await onSave(influencerId, selectedManager || 0);
+
+      if (savedNewManager) {
+        setSavedManager(selectedManager);
+        setShowSaveButton(false);
+      }
+    }
+  };
   return (
     <>
       <Select
         selectName={selectName}
         label={label || { labelText: "Select Manager", isVisible: false }}
-        onChange={(m) => {
-          setSelectedManagerId(m);
-          setShowSaveButton(preSelectedManagerId === selectedManagerId);
-         } }
-        preSelectedValue={selectedManagerId}
-        options={allManagersList.map((manager) => ({
-          title: manager.first_name + " " + manager.last_name,
-          value: manager.id,
-        }))}
+        onChange={(event: React.ChangeEvent<HTMLSelectElement>) => {
+          const { value } = event.target;
+          setSelectedManager(value);
+          setShowSaveButton(
+            Boolean(onSave) && value.toString() !== savedManager?.toString()
+          );
+        }}
+        defaultValue={selectedManager}
+        options={[
+          { title: "Unassigned", value: 0 },
+          ...allManagersList.map((manager) => ({
+            title: manager.first_name + " " + manager.last_name,
+            value: manager.id,
+          })),
+        ]}
       />
-      <div
-        className={
-          showSaveButton ? "block" : "hidden"
-        }
-      >
-        <Button
-          text="Save"
-          onClick={() => {
-            const savedNewManager = onSave && influencerId && selectedManagerId
-              ? onSave(influencerId, selectedManagerId)
-              : undefined;
-            
-            if(savedNewManager) setShowSaveButton(false);
-          }}
-        />
-      </div>
+      {error && <p className="mt-2 text-sm text-red-600">{error}</p>}
+      {showSaveButton && <Button text="Save" onClick={handleSave} />}
     </>
   );
 }
