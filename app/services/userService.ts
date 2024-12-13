@@ -1,4 +1,11 @@
-export const getCurrentUser = async () => {
+export interface GetCurrentUser {
+  id: number;
+  email: string;
+  first_name: string;
+  last_name: string;
+}
+
+export const getCurrentUser = async (): Promise<GetCurrentUser> => {
   try {
     const response = await fetch("/api/users/current-user");
     if (!response.ok) {

@@ -6,25 +6,22 @@ import { ManagerSelect } from "./managerSelect";
 import { getCurrentUser } from "@/app/services/userService";
 import { create, CreationResponse } from "@/app/actions/influencers/actions";
 
-
 const initialState: CreationResponse = {};
 
 export default function CreateInfluencerForm() {
   const [state, formAction, pending] = useActionState(create, initialState);
 
-  const [preSelectedManager, setPreSelectedManager] = useState(undefined);
+  const [preSelectedManager, setPreSelectedManager] = useState<string>();
 
   useEffect(() => {
-    async function fetchData() {
+    (async () => {
       try {
         const currentUser = await getCurrentUser();
-        setPreSelectedManager(currentUser.id);
+        setPreSelectedManager(currentUser.id.toString());
       } catch (error) {
         console.log(error);
       }
-    }
-
-    fetchData();
+    })();
   }, []);
 
   return (
