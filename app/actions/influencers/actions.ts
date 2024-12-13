@@ -105,3 +105,23 @@ export async function create(
     return { error: "Failed to create influencer." };
   }
 }
+
+export const setManager = async (
+  influencerId: string | number,
+  newManagerId: string | number
+): Promise<{success:boolean}> => {
+  try {
+    // Update the influencer's manager_id in the database
+    await knex("influencers")
+      .where({ id: influencerId })
+      .update({ manager_id: newManagerId });
+
+    return { success: true };
+  } catch (error) {
+    console.error(
+      `Failed to change manager for influencer ${influencerId}:`,
+      error
+    );
+    throw new Error(`Unable to change manager: ${(error as Error).message}`);
+  }
+};

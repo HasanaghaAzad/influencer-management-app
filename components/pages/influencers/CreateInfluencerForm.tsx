@@ -67,7 +67,7 @@ export default function CreateInfluencerForm() {
         <ManagerSelect
           selectName="managerId"
           label={{ labelText: "Manager", isVisible: true }}
-          selectedManagerId={preSelectedManager}
+          preSelectedManagerId={preSelectedManager}
         />
 
         <button

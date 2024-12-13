@@ -1,5 +1,6 @@
 "use client";
 import { getAllUsers } from "@/app/services/userService";
+import Button from "@/components/ui/button";
 import { Select, SelectedValue } from "@/components/ui/form/select";
 import { Label } from "@/components/ui/shared/types/formTypes";
 import { useEffect, useState } from "react";
@@ -9,16 +10,30 @@ type AllUsersList = {
   first_name: string;
   last_name: string;
 }[];
+type OnSaveFunction = (
+  influencerId: number | string,
+  selectedManagerId: number | string
+) => Promise<boolean>;
+
 export function ManagerSelect({
   selectName,
   label,
-  selectedManagerId,
+  preSelectedManagerId,
+  influencerId,
+  onSave,
 }: {
   selectName?: string;
   label?: Label;
-  selectedManagerId?: SelectedValue;
+  influencerId?: number;
+  preSelectedManagerId?: SelectedValue;
+  onSave?: OnSaveFunction;
 }) {
   const [allManagersList, setManagers] = useState([] as AllUsersList);
+  const [selectedManagerId, setSelectedManagerId] =
+    useState(preSelectedManagerId);
+  const [showSaveButton, setShowSaveButton] = useState(
+    preSelectedManagerId !== selectedManagerId
+  );
 
   useEffect(() => {
     async function fetchData() {
@@ -34,14 +49,36 @@ export function ManagerSelect({
   }, []);
 
   return (
-    <Select
-      selectName={selectName}
-      label={label || { labelText: "Select Manager", isVisible: false }}
-      preSelectedValue={selectedManagerId}
-      options={allManagersList.map((manager) => ({
-        title: manager.first_name + " " + manager.last_name,
-        value: manager.id,
-      }))}
-    />
+    <>
+      <Select
+        selectName={selectName}
+        label={label || { labelText: "Select Manager", isVisible: false }}
+        onChange={(m) => {
+          setSelectedManagerId(m);
+          setShowSaveButton(preSelectedManagerId === selectedManagerId);
+         } }
+        preSelectedValue={selectedManagerId}
+        options={allManagersList.map((manager) => ({
+          title: manager.first_name + " " + manager.last_name,
+          value: manager.id,
+        }))}
+      />
+      <div
+        className={
+          showSaveButton ? "block" : "hidden"
+        }
+      >
+        <Button
+          text="Save"
+          onClick={() => {
+            const savedNewManager = onSave && influencerId && selectedManagerId
+              ? onSave(influencerId, selectedManagerId)
+              : undefined;
+            
+            if(savedNewManager) setShowSaveButton(false);
+          }}
+        />
+      </div>
+    </>
   );
 }

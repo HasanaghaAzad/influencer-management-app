@@ -25,6 +25,7 @@ export const getAllInfluencers = async (filters?:Filters) => {
     const data: getAllInfluencersRouteResponse = await response.json();
     console.log(data.data);
     const influencersData: InfluencerData[] = data.data.map((influencer) => ({
+      id:influencer.id,
       firstName: influencer.first_name,
       lastName: influencer.last_name,
 

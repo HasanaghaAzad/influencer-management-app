@@ -6,8 +6,10 @@ import NameInput from "@/components/ui/form/nameInput";
 import Button from "@/components/ui/button";
 import { getAllInfluencers } from "@/app/services/influencersService";
 import { useEffect, useState } from "react";
+import { setManager } from "@/app/actions/influencers/actions";
 
 export type InfluencerData = {
+  id: number;
   firstName: string;
   lastName: string;
   instagramAccounts: string[];
@@ -43,6 +45,7 @@ export default function InfluencersList() {
   });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string>();
+  const [toastMessage, setToastMessage] = useState<string | null>(null);
 
   const loadInfluencers = async () => {
     setLoading(true);
@@ -73,6 +76,25 @@ export default function InfluencersList() {
   const handleApplyFilters = (e: React.FormEvent) => {
     e.preventDefault();
     loadInfluencers();
+  };
+
+  const handleSaveChangeManager = async (
+    influencerId: number | string,
+    newManagerId: number | string
+  ) => {
+    console.log("save");
+    try {
+      const savedNewManager = await setManager(influencerId, newManagerId);
+      if (savedNewManager.success) {
+        setToastMessage("Manager changed successfully!");
+        return true;
+      } else {
+        setError("Failed to changemanager");
+      }
+    } catch (err) {
+      setError((err as Error)?.message);
+    }
+    return false;
   };
 
   return (
@@ -110,7 +132,17 @@ export default function InfluencersList() {
           </div>
         </form>
       </div>
-
+      {toastMessage && (
+         <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 p-4 bg-green-500 text-white rounded shadow-lg z-50">
+          <span>{toastMessage}</span>
+          <button
+            className="ml-4 bg-transparent text-white"
+            onClick={() => setToastMessage(null)}
+          >
+            &times;
+          </button>
+        </div>
+      )}
       {loading ? (
         <p className="mt-5 text-center text-gray-500">Loading...</p>
       ) : error ? (
@@ -147,7 +179,16 @@ export default function InfluencersList() {
                   ))}
                 </div>
               ),
-              manager: <ManagerSelect selectedManagerId={row.manager.id} />,
+              manager: (
+                <ManagerSelect
+                  preSelectedManagerId={row.manager.id}
+                  influencerId={row.id}
+                  onSave={(a, b) => {
+                    console.log("onSave");
+                    return handleSaveChangeManager(a, b);
+                  }}
+                />
+              ),
             })),
           }}
         />

@@ -6,18 +6,20 @@ export type Options = {
   value: number;
 }[];
 
-export type SelectedValue = number;
+export type SelectedValue = string | number;
 
 export function Select({
   label = { labelText: "Select", isVisible: true },
   options,
   preSelectedValue,
   selectName,
+  onChange,
 }: {
   label?: Label;
   options: Options;
   preSelectedValue?: SelectedValue;
   selectName?: string;
+  onChange?: (newval: string | number) => void;
 }) {
   const [selectedValue, setSelectedValue] = useState(
     preSelectedValue?.toString()
@@ -32,6 +34,7 @@ export function Select({
   const onchangeHandler = (e: React.ChangeEvent<HTMLSelectElement>) => {
     console.log("onchangeHandler");
     setSelectedValue(e.target.value);
+    if (onChange) onChange(e.target.value);
   };
   console.log("selectedValue");
   console.log(preSelectedValue);
