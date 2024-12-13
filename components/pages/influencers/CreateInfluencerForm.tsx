@@ -1,10 +1,11 @@
 "use client";
-import Input from "@/components/ui/form/input";
-import Textarea from "@/components/ui/form/textarea";
+import Input from "@/components/ui/form/Input";
+import Textarea from "@/components/ui/form/Textarea";
 import React, { useActionState, useEffect, useState } from "react";
 import { ManagerSelect } from "./managerSelect";
 import { getCurrentUser } from "@/app/services/userService";
-import { create, CreationResponse } from "@/app/actions/influencers/actions";
+import { create } from "@/app/actions/influencers/actions";
+import { CreationResponse } from "@/app/types/influencers";
 
 const initialState: CreationResponse = {};
 
@@ -23,7 +24,7 @@ export default function CreateInfluencerForm() {
       }
     })();
   }, []);
-
+console.log("Current state:", state);
   return (
     <>
       <h2 className="text-xl font-bold tracking-tight text-zinc-700 my-3">
@@ -43,28 +44,44 @@ export default function CreateInfluencerForm() {
       )}
 
       <form className="space-y-4" action={formAction}>
-        <Input name="firstName" label={{ labelText: "First name" }} required />
+        <Input
+          name="firstName"
+          value={state?.values?.firstName}
+          label={{ labelText: "First name" }}
+          required
+          error={state?.errors?.firstName?.join("<br>")}
+        />
 
-        <Input name="lastName" label={{ labelText: "Last name" }} required />
+        <Input
+          name="lastName"
+          value={state?.values?.lastName}
+          label={{ labelText: "Last name" }}
+          required
+          error={state?.errors?.lastName?.join("<br>")}
+        />
 
         <Textarea
           name="instagram"
+          value={state?.values?.instagram}
           label={{ labelText: "Instagram accounts" }}
           required
           helperNote="Each username on a new line."
+          error={state?.errors?.instagram?.join("--")}
         />
 
         <Textarea
           name="tiktok"
+          value={state?.values?.tiktok}
           label={{ labelText: "Tiktok accounts" }}
           required
           helperNote="Each username on a new line."
+          error={state?.errors?.tiktok?.join("<br>")}
         />
 
         <ManagerSelect
           selectName="managerId"
           label={{ labelText: "Manager", isVisible: true }}
-          preSelectedManagerId={preSelectedManager}
+          preSelectedManagerId={state?.values?.managerId || preSelectedManager}
         />
 
         <button
@@ -74,9 +91,6 @@ export default function CreateInfluencerForm() {
         >
           Save
         </button>
-        <p aria-live="polite" className="sr-only" role="status">
-          {state?.errors?.firstName}
-        </p>
       </form>
     </>
   );

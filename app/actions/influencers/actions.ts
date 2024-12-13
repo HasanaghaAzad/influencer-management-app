@@ -1,46 +1,17 @@
 "use server";
 
-import { z } from "zod";
-import knex from "@/app/lib/db";
-
-export type CreationResponse = {
-  errors?: {
-    firstName?: string[] | undefined;
-    lastName?: string[] | undefined;
-    managerId?: string[] | undefined;
-    instagram?: string[] | undefined;
-    tiktok?: string[] | undefined;
-  };
-  success?: boolean;
-  error?: string;
-};
-
-type SocialPages = {
-  username: string;
-  influencer_id: number;
-  platform: "tiktok" | "instagram";
-}[];
-
-const influencerCreateSchema = z.object({
-  firstName: z.string().min(1, "First name is required"),
-  lastName: z.string().min(1, "Last name is required"),
-  managerId: z.string().refine(
-    (value) => {
-      return !isNaN(Number(value));
-    },
-    {
-      message: "Manager ID must be a valid number in string form",
-    }
-  ),
-  instagram: z.string().min(1, "Instagram accounts are required"),
-  tiktok: z.string().min(1, "Tiktok accounts are required"),
-});
+import { influencerCreateVelidationSchema } from "@/app/validation/influencers";
+import { CreationResponse, SocialPages } from "@/app/types/influencers";
+import {
+  changeManager,
+  createInfluencer,
+} from "@/app/services/backend/influencers";
 
 export async function create(
   prevState: CreationResponse,
   formData: FormData
 ): Promise<CreationResponse> {
-  const validatedFields = influencerCreateSchema.safeParse({
+  const validatedFields = influencerCreateVelidationSchema.safeParse({
     firstName: formData.get("firstName"),
     lastName: formData.get("lastName"),
     managerId: formData.get("managerId"),
@@ -51,77 +22,21 @@ export async function create(
   if (!validatedFields.success) {
     return {
       errors: validatedFields.error.flatten().fieldErrors,
+      values: {
+        firstName: (formData.get("firstName") || "")?.toString(),
+        lastName: (formData.get("lastName") || "")?.toString(),
+        managerId: (formData.get("managerId") || "")?.toString(),
+        instagram: (formData.get("instagram") || "")?.toString(),
+        tiktok: (formData.get("tiktok") || "")?.toString(),
+      },
     };
   }
-
-  const { firstName, lastName, managerId, instagram, tiktok } =
-    validatedFields.data;
-
-  try {
-    const [{ id: influencerId }] = await knex("influencers")
-      .insert({
-        first_name: firstName,
-        last_name: lastName,
-        manager_id: managerId,
-      })
-      .returning("id");
-
-    // Prepare data for the `social_pages` table
-    const socialPages: SocialPages = [];
-
-    if (instagram) {
-      instagram
-        .split("\n") // Split by new lines
-        .filter((username) => username.trim()) // Remove empty lines
-        .forEach((username) => {
-          socialPages.push({
-            influencer_id: influencerId,
-            platform: "instagram",
-            username: username.trim(),
-          });
-        });
-    }
-
-    if (tiktok) {
-      tiktok
-        .split("\n") // Split by new lines
-        .filter((username) => username.trim()) // Remove empty lines
-        .forEach((username) => {
-          socialPages.push({
-            influencer_id: influencerId,
-            platform: "tiktok",
-            username: username.trim(),
-          });
-        });
-    }
-
-    if (socialPages.length > 0) {
-      await knex("social_pages").insert(socialPages);
-    }
-
-    return { success: true };
-  } catch (error) {
-    console.error("Error creating influencer:", error);
-    return { error: "Failed to create influencer." };
-  }
+  return await createInfluencer(validatedFields.data);
 }
 
 export const setManager = async (
   influencerId: string | number,
   newManagerId: string | number
-): Promise<{success:boolean}> => {
-  try {
-    // Update the influencer's manager_id in the database
-    await knex("influencers")
-      .where({ id: influencerId })
-      .update({ manager_id: newManagerId });
-
-    return { success: true };
-  } catch (error) {
-    console.error(
-      `Failed to change manager for influencer ${influencerId}:`,
-      error
-    );
-    throw new Error(`Unable to change manager: ${(error as Error).message}`);
-  }
+): Promise<{ success: boolean }> => {
+  return await changeManager({ influencerId, newManagerId });
 };

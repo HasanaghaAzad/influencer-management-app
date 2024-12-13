@@ -3,14 +3,18 @@ import { Label } from "../shared/types/formTypes";
 
 const Textarea = ({
   name,
+  value,
   label = { labelText: "Name", isVisible: true },
   required = true,
   helperNote,
+  error,
 }: {
   name: string;
+  value?: string;
   label: Label;
   required: boolean;
   helperNote?: string;
+  error?: string;
 }) => {
   return (
     <div>
@@ -22,8 +26,12 @@ const Textarea = ({
         name={name}
         className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
         required={required}
+        defaultValue={value || ""}
       ></textarea>
-      <p className="mt-1 text-sm text-gray-500">{helperNote}</p>
+      <div className="flex">
+        <p className="mt-1 text-sm text-gray-500 flex-1">{helperNote}</p>
+        {error && <p className="mt-2 text-sm text-red-600">{error}</p>}
+      </div>
     </div>
   );
 };
