@@ -1,9 +1,9 @@
 import { InfluencerData } from "@/components/pages/influencers/influencersList";
-import { GetAllInfluencersFilters, GetAllInfluencersRouteResponse } from "@/app/types/influencers";
+import { GetInfluencersFilters, GetAllInfluencersRouteResponse } from "@/app/types/influencers";
 
 
 
-export const getAllInfluencers = async (filters?: GetAllInfluencersFilters) => {
+export const getAllInfluencers = async (filters?: GetInfluencersFilters) => {
   try {
     const queryParams = new URLSearchParams({
       ...(filters?.influencerName && {

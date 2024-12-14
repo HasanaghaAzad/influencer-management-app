@@ -51,7 +51,7 @@ export interface GetAllInfluencersRouteResponse {
   data: GetInfluencersQueryResultRow[];
 }
 
-export interface GetAllInfluencersFilters {
-  influencerName: string;
-  managerName: string;
+export interface GetInfluencersFilters {
+  influencerName?: string;
+  managerName?: string;
 };
