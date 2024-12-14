@@ -10,7 +10,14 @@ Small app for influencers management.
 
 ## Create .env file
 
-Create .env file in the root. .env file should contain these environment variables
+Run cp command to create own .env file out of .env.example
+
+```bash
+cp .env.example .env
+```
+
+
+.env file should contain these environment variables. You can adjust them to configure Database creation.
 
 ```bash
 POSTGRES_USER=
