@@ -49,6 +49,34 @@ npm run dev
 ```
 http://localhost:3000
 
+
+
+# How to test RESTApi in Postman
+
+1. Create a POST /api/login request in Postman.
+In Body section in raw tab in JSON selection add this data
+
+{
+    "email":"YOUR_EMAIL",
+    "password":"YOUR_PASSWORD"
+}
+
+You can use credentials of one of seed users
+
+2. After succesful login you should receive a token in a body of your response.
+
+{
+    "token": "YOUR_TOKEN"
+}
+
+3. Check Cookies window in Postman(Usually under SEND button at top). Sometimes Postman can automatically create cookie based on response. If it didnt happen copy that token from response to create new Cookie in Postman. 
+
+Add following data as content of your cookie:
+
+authToken=YOUR_TOKEN; Path=/; HttpOnly;
+
+3. Check connection by creating a GET request to /api/influencers endpoint
+
 ## Screenshots
 
 ![Screenshot 1](screenshots/screenshot1.png)
