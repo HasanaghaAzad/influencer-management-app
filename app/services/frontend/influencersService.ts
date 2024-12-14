@@ -1,9 +1,10 @@
 import { InfluencerData } from "@/components/pages/influencers/influencersList";
-import { GetInfluencersFilters, GetAllInfluencersRouteResponse } from "@/app/types/influencers";
+import {
+  GetInfluencersFilters,
+  GetInfluencersRouteResponse,
+} from "@/app/types/influencers";
 
-
-
-export const getAllInfluencers = async (filters?: GetInfluencersFilters) => {
+export const getInfluencers = async (filters?: GetInfluencersFilters) => {
   try {
     const queryParams = new URLSearchParams({
       ...(filters?.influencerName && {
@@ -13,29 +14,31 @@ export const getAllInfluencers = async (filters?: GetInfluencersFilters) => {
     });
     const response = await fetch(`/api/influencers?${queryParams.toString()}`);
     if (!response.ok) {
-      throw new Error("Failed to fetch influencers data");
+      throw new Error("Failed to fetch influencers list");
     }
-    const getAllInfluencers: GetAllInfluencersRouteResponse = await response.json();
-    const influencersData: InfluencerData[] = getAllInfluencers.data.map((influencer) => ({
-      id: influencer.id,
-      firstName: influencer.first_name,
-      lastName: influencer.last_name,
-      manager: {
-        id: influencer.manager_id,
-        name:
-          influencer.manager_first_name + " " + influencer.manager_last_name,
-      },
-      instagramAccounts: influencer.social_pages
-        .filter((social_page) => social_page.platform === "instagram")
-        .map((page) => page.username),
-      tiktokAccounts: influencer.social_pages
-        .filter((social_page) => social_page.platform === "tiktok")
-        .map((page) => page.username),
-    }));
+    const getInfluencers: GetInfluencersRouteResponse = await response.json();
+    const influencers: InfluencerData[] = getInfluencers.data.map(
+      (influencer) => ({
+        id: influencer.id,
+        firstName: influencer.first_name,
+        lastName: influencer.last_name,
+        manager: {
+          id: influencer.manager_id,
+          name:
+            influencer.manager_first_name + " " + influencer.manager_last_name,
+        },
+        instagramAccounts: influencer.social_pages
+          .filter((social_page) => social_page.platform === "instagram")
+          .map((page) => page.username),
+        tiktokAccounts: influencer.social_pages
+          .filter((social_page) => social_page.platform === "tiktok")
+          .map((page) => page.username),
+      })
+    );
 
     return {
       success: true,
-      data: influencersData,
+      data: influencers,
     };
   } catch (error) {
     return {

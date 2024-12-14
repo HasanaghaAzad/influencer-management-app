@@ -45,7 +45,7 @@ export interface GetInfluencersQueryResultRow {
   }[];
 }
 
-export interface GetAllInfluencersRouteResponse {
+export interface GetInfluencersRouteResponse {
   success?: boolean;
   error?: boolean;
   data: GetInfluencersQueryResultRow[];

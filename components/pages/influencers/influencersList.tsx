@@ -4,7 +4,7 @@ import Link from "next/link";
 import { ManagerSelect } from "./managerSelect";
 import NameInput from "@/components/ui/form/nameInput";
 import Button from "@/components/ui/button";
-import { getAllInfluencers } from "@/app/services/frontend/influencersService";
+import { getInfluencers } from "@/app/services/frontend/influencersService";
 import { useEffect, useState } from "react";
 import { setManager } from "@/app/actions/influencers/actions";
 import { AllUsersList } from "@/app/types/users";
@@ -57,7 +57,7 @@ export default function InfluencersList() {
   const loadInfluencers = async () => {
     setLoading(true);
     try {
-      const data = await getAllInfluencers(filters);
+      const data = await getInfluencers(filters);
       if (data.success) {
         setInfluencers(data.data);
         setError("");
