@@ -4,9 +4,11 @@ import Link from "next/link";
 import { ManagerSelect } from "./managerSelect";
 import NameInput from "@/components/ui/form/nameInput";
 import Button from "@/components/ui/button";
-import { getAllInfluencers } from "@/app/services/influencersService";
+import { getAllInfluencers } from "@/app/services/frontend/influencersService";
 import { useEffect, useState } from "react";
 import { setManager } from "@/app/actions/influencers/actions";
+import { AllUsersList } from "@/app/types/users";
+import { getAllUsers } from "@/app/services/frontend/userService";
 
 export type InfluencerData = {
   id: number;
@@ -35,7 +37,7 @@ export default function InfluencersList() {
     tiktokAccounts: { title: "TikTok Accounts" },
     manager: { title: "Manager" },
   };
-
+  const [allManagers, setManagers] = useState([] as AllUsersList);
   const [influencersData, setInfluencers] = useState<
     InfluencerData[] | undefined
   >([]);
@@ -47,12 +49,16 @@ export default function InfluencersList() {
   const [error, setError] = useState<string>();
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
+  const loadManagers = async () => {
+    const allUsers = await getAllUsers();
+    setManagers(allUsers);
+  };
+
   const loadInfluencers = async () => {
     setLoading(true);
     try {
       const data = await getAllInfluencers(filters);
       if (data.success) {
-        console.log(data);
         setInfluencers(data.data);
         setError("");
       } else {
@@ -66,6 +72,7 @@ export default function InfluencersList() {
   };
 
   useEffect(() => {
+    loadManagers();
     loadInfluencers();
   }, []);
 
@@ -82,11 +89,7 @@ export default function InfluencersList() {
     influencerId: number | string,
     newManagerId: number | string
   ) => {
-    console.log("save");
     try {
-      console.log('setManager');
-      console.log(influencerId);
-      console.log(newManagerId);
       const savedNewManager = await setManager(influencerId, newManagerId);
       if (savedNewManager.success) {
         setToastMessage("Manager changed successfully!");
@@ -136,7 +139,7 @@ export default function InfluencersList() {
         </form>
       </div>
       {toastMessage && (
-         <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 p-4 bg-green-500 text-white rounded shadow-lg z-50">
+        <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 p-4 bg-green-500 text-white rounded shadow-lg z-50">
           <span>{toastMessage}</span>
           <button
             className="ml-4 bg-transparent text-white"
@@ -184,10 +187,10 @@ export default function InfluencersList() {
               ),
               manager: (
                 <ManagerSelect
+                  allManagers={allManagers}
                   defaultValue={row.manager.id}
                   influencerId={row.id}
                   onSave={(a, b) => {
-                    console.log("onSave");
                     return handleSaveChangeManager(a, b);
                   }}
                 />

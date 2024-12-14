@@ -1,5 +1,5 @@
 "use client";
-import { getCurrentUser, GetCurrentUser } from "@/app/services/userService";
+import { getCurrentUser, GetCurrentUser } from "@/app/services/frontend/userService";
 import MenuButton from "@/components/ui/menu/button";
 import DropdownButton from "@/components/ui/menu/dropdownButton";
 import Menu from "@/components/ui/menu/menu";

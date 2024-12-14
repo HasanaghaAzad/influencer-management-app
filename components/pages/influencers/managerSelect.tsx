@@ -1,21 +1,17 @@
 "use client";
-import { getAllUsers } from "@/app/services/userService";
+import { AllUsersList } from "@/app/types/users";
 import Button from "@/components/ui/button";
 import { Select, SelectedValue } from "@/components/ui/form/select";
 import { Label } from "@/components/ui/shared/types/formTypes";
 import { useEffect, useState } from "react";
 
-type AllUsersList = {
-  id: number;
-  first_name: string;
-  last_name: string;
-}[];
 type OnSaveFunction = (
   influencerId: number | string,
   selectedManagerId: number | string
 ) => Promise<boolean>;
 
 export function ManagerSelect({
+  allManagers,
   selectName,
   label,
   defaultValue,
@@ -23,6 +19,7 @@ export function ManagerSelect({
   error,
   onSave,
 }: {
+  allManagers: AllUsersList;
   selectName?: string;
   label?: Label;
   influencerId?: number;
@@ -30,25 +27,11 @@ export function ManagerSelect({
   error?: string;
   onSave?: OnSaveFunction;
 }) {
-  const [allManagersList, setManagers] = useState([] as AllUsersList);
   const [selectedManager, setSelectedManager] = useState(defaultValue);
   const [savedManager, setSavedManager] = useState(defaultValue);
   const [showSaveButton, setShowSaveButton] = useState(
     defaultValue !== savedManager
   );
-
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const allUsers = await getAllUsers();
-        setManagers(allUsers);
-      } catch (error) {
-        console.log(error);
-      }
-    }
-
-    fetchData();
-  }, []);
 
   const handleSave = async () => {
     if (onSave && influencerId) {
@@ -75,7 +58,7 @@ export function ManagerSelect({
         defaultValue={selectedManager}
         options={[
           { title: "Unassigned", value: 0 },
-          ...allManagersList.map((manager) => ({
+          ...allManagers.map((manager) => ({
             title: manager.first_name + " " + manager.last_name,
             value: manager.id,
           })),

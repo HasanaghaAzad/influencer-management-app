@@ -5,6 +5,7 @@ import { JWTPayload } from "jose";
 import { errorMessages } from "./app/lib/messages/errorMessages";
 
 export async function middleware(req: NextRequest) {
+  console.log('run middlware');
   const { pathname } = req.nextUrl;
   const isApiRequest = pathname.startsWith("/api");
   const isAuthenticated = await checkSession();

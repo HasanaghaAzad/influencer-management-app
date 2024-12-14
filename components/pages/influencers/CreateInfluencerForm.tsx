@@ -3,28 +3,30 @@ import Input from "@/components/ui/form/Input";
 import Textarea from "@/components/ui/form/Textarea";
 import React, { useActionState, useEffect, useState } from "react";
 import { ManagerSelect } from "./managerSelect";
-import { getCurrentUser } from "@/app/services/userService";
+import { getAllUsers, getCurrentUser } from "@/app/services/frontend/userService";
 import { create } from "@/app/actions/influencers/actions";
 import { CreationResponse } from "@/app/types/influencers";
+import { AllUsersList } from "@/app/types/users";
 
 const initialState: CreationResponse = {};
 
 export default function CreateInfluencerForm() {
   const [state, formAction, pending] = useActionState(create, initialState);
 
+  const [allManagers, setManagers] = useState([] as AllUsersList);
+ 
+
   const [preSelectedManager, setPreSelectedManager] = useState<string>();
 
   useEffect(() => {
     (async () => {
-      try {
-        const currentUser = await getCurrentUser();
-        setPreSelectedManager(currentUser.id.toString());
-      } catch (error) {
-        console.log(error);
-      }
+      const allUsers = await getAllUsers();
+      setManagers(allUsers);
+
+      const currentUser = await getCurrentUser();
+      setPreSelectedManager(currentUser.id.toString());
     })();
   }, []);
-console.log("Current state:", state);
   return (
     <>
       <h2 className="text-xl font-bold tracking-tight text-zinc-700 my-3">
@@ -79,6 +81,7 @@ console.log("Current state:", state);
         />
 
         <ManagerSelect
+          allManagers={allManagers}
           selectName="managerId"
           label={{ labelText: "Manager", isVisible: true }}
           defaultValue={state?.values?.managerId || preSelectedManager}

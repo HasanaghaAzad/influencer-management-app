@@ -30,3 +30,28 @@ export interface ChangeManagerFormData {
   influencerId: number | string;
   newManagerId: number | string;
 }
+
+export interface GetInfluencersQueryResultRow {
+  id: number;
+  first_name: string;
+  last_name: string;
+  manager_id: number;
+  manager_first_name: string;
+  manager_last_name: string;
+  social_pages: {
+    id: number;
+    username: string;
+    platform: string;
+  }[];
+}
+
+export interface GetAllInfluencersRouteResponse {
+  success?: boolean;
+  error?: boolean;
+  data: GetInfluencersQueryResultRow[];
+}
+
+export interface GetAllInfluencersFilters {
+  influencerName: string;
+  managerName: string;
+};

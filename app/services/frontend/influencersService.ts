@@ -1,34 +1,25 @@
 import { InfluencerData } from "@/components/pages/influencers/influencersList";
-import { InfluencersQueryRow } from "../api/influencers/route";
+import { GetAllInfluencersFilters, GetAllInfluencersRouteResponse } from "@/app/types/influencers";
 
-interface getAllInfluencersRouteResponse {
-  success?: boolean;
-  error?: boolean;
-  data: InfluencersQueryRow[];
-}
 
-type Filters = {
-  influencerName: string;
-  managerName: string;
-};
 
-export const getAllInfluencers = async (filters?:Filters) => {
+export const getAllInfluencers = async (filters?: GetAllInfluencersFilters) => {
   try {
     const queryParams = new URLSearchParams({
-      ...(filters?.influencerName && { influencerName: filters.influencerName }),
+      ...(filters?.influencerName && {
+        influencerName: filters.influencerName,
+      }),
       ...(filters?.managerName && { managerName: filters.managerName }),
     });
-    const response = await fetch(`/api/influencers/?${queryParams.toString()}`);
+    const response = await fetch(`/api/influencers?${queryParams.toString()}`);
     if (!response.ok) {
       throw new Error("Failed to fetch influencers data");
     }
-    const data: getAllInfluencersRouteResponse = await response.json();
-    console.log(data.data);
-    const influencersData: InfluencerData[] = data.data.map((influencer) => ({
-      id:influencer.id,
+    const getAllInfluencers: GetAllInfluencersRouteResponse = await response.json();
+    const influencersData: InfluencerData[] = getAllInfluencers.data.map((influencer) => ({
+      id: influencer.id,
       firstName: influencer.first_name,
       lastName: influencer.last_name,
-
       manager: {
         id: influencer.manager_id,
         name:
@@ -41,7 +32,7 @@ export const getAllInfluencers = async (filters?:Filters) => {
         .filter((social_page) => social_page.platform === "tiktok")
         .map((page) => page.username),
     }));
-    console.log(influencersData);
+
     return {
       success: true,
       data: influencersData,

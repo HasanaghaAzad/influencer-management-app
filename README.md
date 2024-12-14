@@ -51,7 +51,10 @@ http://localhost:3000
 
 
 
-# How to test RESTApi in Postman
+
+# RESTApi with Postman
+
+## Autentification
 
 1. Create a POST /api/login request in Postman.
 In Body section in raw tab in JSON selection add this data
@@ -76,6 +79,20 @@ Add following data as content of your cookie:
 authToken=YOUR_TOKEN; Path=/; HttpOnly;
 
 3. Check connection by creating a GET request to /api/influencers endpoint
+
+## Influencers
+
+To get all influencers:
+GET: /api/influencers
+
+To get influencers filtered by Influencer Name
+GET: /api/influencers?influencerName=INFLUENCER_NAME
+
+To get influencers filtered by Manager Name
+GET: /api/influencers?managerName=MANAGER_NAME
+
+You can also filter influencers same time by manager and by Influencer. In this case app will list influencers which met both parameters: influencerName AND managerName
+GET: /api/influencers?managerName=MANAGER_NAME&managerName=MANAGER_NAME
 
 ## Screenshots
 

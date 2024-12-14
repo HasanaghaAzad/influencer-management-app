@@ -1,19 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import knex from "@/app/lib/db";
-
-export interface InfluencersQueryRow {
-  id: number;
-  first_name: string;
-  last_name: string;
-  manager_id: number;
-  manager_first_name: string;
-  manager_last_name: string;
-  social_pages: {
-    id: number;
-    username: string;
-    platform: string;
-  }[];
-}
+import { GetInfluencersQueryResultRow } from "@/app/types/influencers";
 
 export async function GET(req: NextRequest) {
   try {
@@ -23,7 +10,9 @@ export async function GET(req: NextRequest) {
       managerName: url.searchParams.get("managerName"),
     };
 
-    const influencers: InfluencersQueryRow[] = await knex("influencers")
+    const influencers: GetInfluencersQueryResultRow[] = await knex(
+      "influencers"
+    )
       .select(
         "influencers.id",
         "influencers.first_name",
