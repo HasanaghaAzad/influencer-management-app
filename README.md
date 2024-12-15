@@ -29,8 +29,8 @@ These test accounts are available for login:
 
 ### 1. Clone the Repository
 ```bash
-git clone <repository-url>
-cd <repository-folder>
+git clone https://github.com/HasanaghaAzad/influencer-management-app.git
+cd influencer-management-app
 ```
 
 ### 2. Setup Environment Variables
