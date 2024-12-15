@@ -1,7 +1,7 @@
 "use server";
 
 import { influencerCreateVelidationSchema } from "@/app/validation/influencers";
-import { CreationResponse, SocialPages } from "@/app/types/influencers";
+import { CreationResponse } from "@/app/types/influencers";
 import {
   changeManager,
   createInfluencer,

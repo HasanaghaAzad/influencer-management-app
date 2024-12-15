@@ -70,6 +70,7 @@ export const changeManager = async ({
       errorMessages["error_changing_manager"] + ": " + influencerId,
       error
     );
+    return { success: false };
   }
 };
 
