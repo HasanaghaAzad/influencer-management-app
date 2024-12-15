@@ -1,17 +1,17 @@
-import type { NextApiRequest, NextApiResponse } from "next";
 import knex from "@/app/lib/db";
 import { checkSession } from "@/app/lib/session";
 import { NextResponse } from "next/server";
 
-export async function GET(req: NextApiRequest, res: NextApiResponse) {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export async function GET(request: Request) {
   try {
     const jwtPayload = await checkSession();
     if (!jwtPayload?.userId) {
-      return res.status(401).json({ error: "Unauthorized" });
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     if (!jwtPayload?.userId) {
-      return res.status(404).json({ error: "User not found" });
+      return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
 
     const currentUser = await knex("users")
