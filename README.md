@@ -85,7 +85,13 @@ npm install
 npm run build
 ```
 
-### 6. Run Knex Migrations
+### 6. Start Docker containers
+
+```bash
+npm run docker:up
+```
+
+### 7. Run Knex Migrations
 
 Before running the application, you need to set up the database schema and seed it with initial data:
 
@@ -102,7 +108,7 @@ npx knex seed:run
 
 
 
-### 7. Run the App Locally
+### 8. Run the App Locally
 
 Start the development server:
 ```bash
