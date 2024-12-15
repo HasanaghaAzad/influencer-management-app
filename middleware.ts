@@ -5,7 +5,6 @@ import { JWTPayload } from "jose";
 import { errorMessages } from "./app/lib/messages/errorMessages";
 
 export async function middleware(req: NextRequest) {
-  console.log('run middlware');
   const { pathname } = req.nextUrl;
   const isApiRequest = pathname.startsWith("/api");
   const isAuthenticated = await checkSession();
@@ -52,7 +51,7 @@ export async function handleApiRequest(
 export const config = {
   matcher: [
     /*
-     * middleware() will work on all requests except for the ones starting with:
+     * middleware() works on all requests except for the ones starting with:
      * - api (API routes)
      * - _next/static (static files)
      * - _next/image (image optimization files)
