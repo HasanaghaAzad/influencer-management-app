@@ -48,7 +48,7 @@ export default function CreateInfluencerForm() {
       <form className="space-y-4" action={formAction}>
         <Input
           name="firstName"
-          value={state?.values?.firstName}
+          defaultValue={state?.values?.firstName}
           label={{ labelText: "First name" }}
           required
           error={state?.errors?.firstName?.join("<br>")}
@@ -56,7 +56,7 @@ export default function CreateInfluencerForm() {
 
         <Input
           name="lastName"
-          value={state?.values?.lastName}
+          defaultValue={state?.values?.lastName}
           label={{ labelText: "Last name" }}
           required
           error={state?.errors?.lastName?.join("<br>")}

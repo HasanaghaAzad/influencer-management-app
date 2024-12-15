@@ -3,14 +3,14 @@ import { Label } from "../shared/types/formTypes";
 
 const Input = ({
   name,
-  value,
+  defaultValue,
   type = "text",
   label = { labelText: "Name", isVisible: true },
   required = true,
   error,
 }: {
     name: string;
-    value?: string;
+    defaultValue?: string;
   type?: string;
   label: Label;
   required: boolean;
@@ -25,7 +25,7 @@ const Input = ({
         type={type}
         id={name}
         name={name}
-        defaultValue={value || ''}
+        defaultValue={defaultValue || ''}
         
         className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
         required={required}

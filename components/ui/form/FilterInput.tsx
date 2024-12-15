@@ -1,15 +1,15 @@
 import { Label } from "../shared/types/formTypes";
 
-export function NameInput({
+export function FilterInput({
   label = { labelText: "Name", isVisible: true },
   name,
   value,
-  onChange,
+  defaultValue,
 }: {
   label?: Label;
   name?: string;
   value?: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  defaultValue?: string;
 }) {
   return (
     <>
@@ -24,11 +24,11 @@ export function NameInput({
       <div className="relative">
         <input
           type="text"
-          placeholder="Devid"
+          placeholder="Tony"
           className="w-full bg-transparent rounded-md border border-stroke dark:border-dark-3 py-[10px] pr-3 pl-12 text-dark-6 outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-gray-2"
           name={name}
           value={value}
-          onChange={onChange}
+          defaultValue={defaultValue}
         />
         <span className="absolute top-1/2 left-4 -translate-y-1/2">
           <svg
@@ -51,4 +51,3 @@ export function NameInput({
     </>
   );
 }
-export default NameInput;

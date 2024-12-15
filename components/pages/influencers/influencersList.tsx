@@ -2,16 +2,18 @@
 import Table from "@/components/ui/table";
 import Link from "next/link";
 import { ManagerSelect } from "./managerSelect";
-import NameInput from "@/components/ui/form/nameInput";
+import { FilterInput } from "@/components/ui/form/FilterInput";
 import Button from "@/components/ui/button";
 import { getInfluencers } from "@/app/services/frontend/influencersService";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { setManager } from "@/app/actions/influencers/actions";
 import { AllUsersList } from "@/app/types/users";
 import { getAllUsers } from "@/app/services/frontend/userService";
-import { InfluencerData, InfluencersTableColumns } from "@/app/types/influencers";
+import {
+  InfluencerData,
+  InfluencersTableColumns,
+} from "@/app/types/influencers";
 import { ToastMessage } from "@/components/ui/ToastMessage";
-
 
 export default function InfluencersList() {
   const influencersTableColumns: InfluencersTableColumns = {
@@ -38,7 +40,7 @@ export default function InfluencersList() {
     setManagers(allUsers);
   };
 
-  const loadInfluencers = async () => {
+  const loadInfluencers = useCallback(async () => {
     setLoading(true);
     try {
       const fetchInfluencers = await getInfluencers(filters);
@@ -53,20 +55,20 @@ export default function InfluencersList() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [filters]);
 
   useEffect(() => {
     loadManagers();
     loadInfluencers();
-  }, []);
-
-  const handleFilterInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFilters({ ...filters, [e.target.name]: e.target.value });
-  };
+  }, [loadInfluencers]);
 
   const handleApplyFilters = (e: React.FormEvent) => {
     e.preventDefault();
-    loadInfluencers();
+    const formData = new FormData(e.target as HTMLFormElement);
+    setFilters({
+      influencerName: formData.get("influencerName") as string,
+      managerName: formData.get("managerName") as string,
+    });
   };
 
   const handleSaveChangeManager = async (
@@ -101,19 +103,17 @@ export default function InfluencersList() {
               <b>Filter by:</b>
             </div>
             <div className="flex-1">
-              <NameInput
+              <FilterInput
                 label={{ labelText: "Influencer name" }}
                 name="influencerName"
-                value={filters.influencerName}
-                onChange={handleFilterInputChange}
+                defaultValue={filters.influencerName}
               />
             </div>
             <div className="flex-1">
-              <NameInput
+              <FilterInput
                 label={{ labelText: "Manager name" }}
                 name="managerName"
-                value={filters.managerName}
-                onChange={handleFilterInputChange}
+                defaultValue={filters.managerName}
               />
             </div>
             <div className="flex-1 h-auto">
@@ -122,7 +122,12 @@ export default function InfluencersList() {
           </div>
         </form>
       </div>
-      {toastMessage && (<ToastMessage message={toastMessage} onClose={() => setToastMessage(null)} />)}
+      {toastMessage && (
+        <ToastMessage
+          message={toastMessage}
+          onClose={() => setToastMessage(null)}
+        />
+      )}
       {loading ? (
         <p className="mt-10 text-center text-gray-500 py-14">Loading...</p>
       ) : error ? (
