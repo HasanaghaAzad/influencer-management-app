@@ -28,7 +28,6 @@ export function Header() {
         ...currentUser,
         fullName: currentUser.first_name + " " + currentUser.last_name,
       });
-      console.log(currentUser);
     })();
   }, []);
 
@@ -46,11 +45,8 @@ export function Header() {
     event: React.MouseEvent<HTMLAnchorElement, MouseEvent>
   ) => {
     event.preventDefault();
-    try {
-      await fetch("/api/logout");
-      router.push("/login");
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    } catch (error) {}
+    await fetch("/api/logout");
+    router.push("/login");
   };
 
   const userNavigation = [
@@ -139,13 +135,6 @@ export function Header() {
                   {currentUser?.email}
                 </div>
               </div>
-              <button
-                type="button"
-                className="relative ml-auto shrink-0 rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
-              >
-                <span className="absolute -inset-1.5" />
-                <span className="sr-only">View notifications</span>
-              </button>
             </div>
             <div className="mt-3 space-y-1 px-2">
               {userNavigation.map((item) => (
