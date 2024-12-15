@@ -1,8 +1,8 @@
 import React from "react";
 
 const TdStyle = {
-  ThStyle: `w-1/6 min-w-[160px] border-l border-transparent py-3 px-2 text-base font-medium  lg:py-6 lg:px-3`,
-  TdStyle: `text-dark border-b border-l border-[#E8E8E8] bg-[#F3F6FF] dark:bg-dark-3 dark:border-dark dark:text-dark-7 py-5 px-2 text-left text-sm font-medium`,
+  ThStyle: `w-1/6 min-w-[160px] border-l border-transparent py-3 px-3 text-base font-medium  lg:py-6 lg:px-3`,
+  TdStyle: `text-dark border-b border-l border-[#E8E8E8] bg-[#F3F6FF] dark:bg-dark-3 dark:border-dark dark:text-dark-7 py-5 px-3 text-left text-sm font-medium`,
 };
 
 export type TableColumns = {
@@ -20,7 +20,7 @@ export type TableData = {
   rows: TableRow[];
 };
 
-const Table = ({data}: {data: TableData}) => {
+export default function Table({ data }: { data: TableData }) {
   return (
     <section>
       <div className="container">
@@ -56,6 +56,4 @@ const Table = ({data}: {data: TableData}) => {
       </div>
     </section>
   );
-};
-
-export default Table;
+}
