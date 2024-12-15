@@ -91,7 +91,7 @@ export default function CreateInfluencerForm() {
           error={state?.errors?.managerId?.join("<br>")}
         />
 
-        <SubmitButton pending={pending} />
+        <SubmitButton pending={pending}>Save</SubmitButton>
       </form>
     </>
   );
