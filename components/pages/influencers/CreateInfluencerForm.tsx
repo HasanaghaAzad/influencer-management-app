@@ -2,7 +2,7 @@
 import Input from "@/components/ui/form/Input";
 import Textarea from "@/components/ui/form/Textarea";
 import React, { useActionState, useEffect, useState } from "react";
-import { ManagerSelect } from "./managerSelect";
+import { ManagerSelect } from "./ManagerSelect";
 import {
   getAllUsers,
   getCurrentUser,

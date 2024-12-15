@@ -1,7 +1,7 @@
 "use client";
 import Table from "@/components/ui/table";
 import Link from "next/link";
-import { ManagerSelect } from "./managerSelect";
+import { ManagerSelect } from "./ManagerSelect";
 import { FilterInput } from "@/components/ui/form/FilterInput";
 import Button from "@/components/ui/button";
 import { getInfluencers } from "@/app/services/frontend/influencersService";
