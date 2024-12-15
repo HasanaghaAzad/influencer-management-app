@@ -1,7 +1,7 @@
 import {logout} from "@/app/actions/auth";
 import {NextResponse} from "next/server";
 
-export async function POST() {
+export async function GET() {
   await logout();
   return NextResponse.json(
     {},

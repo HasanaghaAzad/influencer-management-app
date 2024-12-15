@@ -47,8 +47,8 @@ export function Header() {
   ) => {
     event.preventDefault();
     try {
-      await fetch("/api/logout", { method: "POST" });
-      router.push("/dashboard");
+      await fetch("/api/logout");
+      router.push("/login");
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {}
   };
