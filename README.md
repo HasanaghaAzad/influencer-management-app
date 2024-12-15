@@ -108,6 +108,16 @@ A successful response includes a token:
 }
 ```
 
+Set Cookies in Postman
+If Postman does not automatically set cookies:
+
+Copy the token from the login response.
+Manually add a cookie in Postman with the following format:
+
+```
+authToken=YOUR_TOKEN; Path=/; HttpOnly;  
+```
+
 **Test Authentication**
 Use the token to access secure endpoints, like:
 ```
