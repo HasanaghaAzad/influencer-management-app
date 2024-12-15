@@ -1,12 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { Label } from "../shared/types/formTypes";
-
-export type Options = {
-  title: string;
-  value: number;
-}[];
-
-export type SelectedValue = string | number;
+import React from "react";
+import { Label, SelectedValue, SelectOption } from "../shared/types/formTypes";
 
 export function Select({
   label = { labelText: "Select", isVisible: true },
@@ -16,7 +9,7 @@ export function Select({
   onChange,
 }: {
   label?: Label;
-  options: Options;
+  options: SelectOption[];
   defaultValue?: SelectedValue;
   selectName?: string;
   onChange?: (value: React.ChangeEvent<HTMLSelectElement>) => void;

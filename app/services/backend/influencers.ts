@@ -5,7 +5,7 @@ import {
   ChangeManagerFormData,
   GetInfluencersFilters,
   InfluencerFormData,
-  SocialPages,
+  SocialPage,
 } from "@/app/types/influencers";
 
 export const createInfluencer = async (
@@ -31,7 +31,7 @@ export const createInfluencer = async (
 
     const tiktokAccounts = buildAccountObjects(influencerId, tiktok, "tiktok");
 
-    const socialPages: SocialPages = [...instagramAccounts, ...tiktokAccounts];
+    const socialPages: SocialPage[] = [...instagramAccounts, ...tiktokAccounts];
 
     if (socialPages.length > 0) {
       await knex("social_pages").insert(socialPages);

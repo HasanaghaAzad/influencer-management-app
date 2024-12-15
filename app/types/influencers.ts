@@ -16,7 +16,6 @@ export interface SocialPage {
   influencer_id: number;
   platform: "tiktok" | "instagram";
 }
-export interface SocialPages extends Array<SocialPage> {}
 
 export interface InfluencerFormData {
   firstName: string;

@@ -1,8 +1,8 @@
 "use client";
 import { AllUsersList } from "@/app/types/users";
 import Button from "@/components/ui/button";
-import { Select, SelectedValue } from "@/components/ui/form/select";
-import { Label } from "@/components/ui/shared/types/formTypes";
+import { Select } from "@/components/ui/form/Select";
+import { Label, SelectedValue } from "@/components/ui/shared/types/formTypes";
 import { useState } from "react";
 
 type OnSaveFunction = (
