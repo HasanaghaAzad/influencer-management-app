@@ -3,7 +3,7 @@ import { AllUsersList } from "@/app/types/users";
 import Button from "@/components/ui/button";
 import { Select, SelectedValue } from "@/components/ui/form/select";
 import { Label } from "@/components/ui/shared/types/formTypes";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 type OnSaveFunction = (
   influencerId: number | string,
