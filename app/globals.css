@@ -26,3 +26,10 @@ body {
     --foreground: initial;
   }
 }
+
+.dropdown-arrow {
+  display: block;
+  background: url("/icons/dropdown-arrow.svg");
+  width: 17px;
+  height: 17px;
+}
