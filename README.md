@@ -1,25 +1,47 @@
-Small app for influencers management.
+# Influencer Management App
 
-# Seed Users
+A straightforward application for managing a list of influencers, including their Instagram and TikTok accounts. Managers (app users) can be assigned/reassigned to specific influencers.
 
-1. Email: nick.fury@shield.com  | Password: invasion
-2. Email: odin.borson@asgard.com | Password: hela
+---
 
+## Technologies Used  
 
-# How to build and run
+- **Next.js**: Version 15.0.3 with App Router  
+- **React**: Version 19  
+- **Tailwind CSS** and **Tigrids** for styling  
+- **Jose** for authentication  
+- **TypeScript** 
 
-## Create .env file
+--- 
 
-Run cp command to create own .env file out of .env.example
+## Seed Users
 
+These test accounts are available for login:
+
+| Email                        | Password   |
+|------------------------------|------------|
+| `nick.fury@shield.com`       | `invasion` |
+| `odin.borson@asgard.com`     | `hela`     |
+
+---
+
+## Getting Started
+
+### 1. Clone the Repository
+```bash
+git clone <repository-url>
+cd <repository-folder>
+```
+
+### 2. Setup Environment Variables
+
+Create a `.env` file:
 ```bash
 cp .env.example .env
 ```
 
-
-.env file should contain these environment variables. You can adjust them to configure Database creation.
-
-```bash
+Set the following variables:
+```env
 POSTGRES_USER=
 POSTGRES_PASSWORD=
 POSTGRES_DB=
@@ -29,77 +51,81 @@ JWT_SECRET=
 JWT_TOKEN_EXPIRES=7d
 ```
 
-
-For prod it can contain also this variable
-```bash
-PROD_DATABASE_URL=
-```
-
-## Build Authentification
-
-Generate a secret key.
-
+To generate a secure `JWT_SECRET`:
 ```bash
 openssl rand -base64 32
 ```
 
-Store new generated secret key in .env as JWT_SECRET
-```
-JWT_SECRET=your_secret_key
+For production, include:
+```env
+PROD_DATABASE_URL=
 ```
 
-##
+### 3. Install Dependencies and Run the App
 
-
+Install required packages:
+```bash
+npm install
 ```
+
+Start the development server:
+```bash
 npm run dev
 ```
-http://localhost:3000
 
+The app will be accessible at:
+[http://localhost:3000](http://localhost:3000)
 
+---
 
+## API Overview
 
-# RESTApi with Postman
+### Authentication
 
-## Autentification
-
-1. Create a POST /api/login request in Postman.
-In Body section in raw tab in JSON selection add this data
-
+**Login**
+Send a `POST` request to `/api/login` with the following JSON body:
+```json
 {
-    "email":"YOUR_EMAIL",
-    "password":"YOUR_PASSWORD"
+    "email": "YOUR_EMAIL",
+    "password": "YOUR_PASSWORD"
 }
-
-You can use credentials of one of seed users
-
-2. After succesful login you should receive a token in a body of your response.
-
+```
+A successful response includes a token:
+```json
 {
     "token": "YOUR_TOKEN"
 }
+```
 
-3. Check Cookies window in Postman(Usually under SEND button at top). Sometimes Postman can automatically create cookie based on response. If it didnt happen copy that token from response to create new Cookie in Postman. 
+**Test Authentication**
+Use the token to access secure endpoints, like:
+```
+GET /api/influencers
+```
 
-Add following data as content of your cookie:
+### Influencer Management
 
-authToken=YOUR_TOKEN; Path=/; HttpOnly;
-
-3. Check connection by creating a GET request to /api/influencers endpoint
-
-## Influencers
-
-To get all influencers:
+**Get All Influencers**
+```
 GET: /api/influencers
+```
 
-To get influencers filtered by Influencer Name
-GET: /api/influencers?influencerName=INFLUENCER_NAME
+**Filter by Influencer Name**
+```
+GET: /api/influencers?influencerName=NAME
+```
 
-To get influencers filtered by Manager Name
-GET: /api/influencers?managerName=MANAGER_NAME
+**Filter by Manager**
+```
+GET: /api/influencers?managerName=NAME
+```
 
-You can also filter influencers same time by manager and by Influencer. In this case app will list influencers which met both parameters: influencerName AND managerName
-GET: /api/influencers?managerName=MANAGER_NAME&managerName=MANAGER_NAME
+**Combine Filters**
+```
+GET: /api/influencers?influencerName=NAME&managerName=NAME
+```
+
+---
 
 ## Screenshots
 
