@@ -3,10 +3,14 @@ import Input from "@/components/ui/form/Input";
 import Textarea from "@/components/ui/form/Textarea";
 import React, { useActionState, useEffect, useState } from "react";
 import { ManagerSelect } from "./managerSelect";
-import { getAllUsers, getCurrentUser } from "@/app/services/frontend/userService";
+import {
+  getAllUsers,
+  getCurrentUser,
+} from "@/app/services/frontend/userService";
 import { create } from "@/app/actions/influencers/actions";
 import { CreationResponse } from "@/app/types/influencers";
 import { AllUsersList } from "@/app/types/users";
+import { SubmitButton } from "@/components/ui/form/SubmitButton";
 
 const initialState: CreationResponse = {};
 
@@ -14,7 +18,6 @@ export default function CreateInfluencerForm() {
   const [state, formAction, pending] = useActionState(create, initialState);
 
   const [allManagers, setManagers] = useState([] as AllUsersList);
- 
 
   const [preSelectedManager, setPreSelectedManager] = useState<string>();
 
@@ -88,13 +91,7 @@ export default function CreateInfluencerForm() {
           error={state?.errors?.managerId?.join("<br>")}
         />
 
-        <button
-          type="submit"
-          className="w-full bg-indigo-500 hover:bg-indigo-600 text-white p-2 rounded-md shadow-sm focus:ring-2 focus:ring-indigo-500"
-          aria-disabled={pending}
-        >
-          Save
-        </button>
+        <SubmitButton pending={pending} />
       </form>
     </>
   );
