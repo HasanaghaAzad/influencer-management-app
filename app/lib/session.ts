@@ -1,6 +1,7 @@
 "use server";
 import { SignJWT, jwtVerify } from "jose";
 import { cookies } from "next/headers";
+import { errorMessages } from "./messages/errorMessages";
 
 const secretKey = process.env.JWT_SECRET;
 const encodedKey = new TextEncoder().encode(secretKey);
@@ -22,10 +23,15 @@ export async function checkSession() {
   const token = cookieStore.get("authToken")?.value;
   if (!token) return null;
 
-  const { payload } = await jwtVerify(token, encodedKey, {
-    algorithms: ["HS256"],
-  });
-  return payload;
+  try {
+    const { payload } = await jwtVerify(token, encodedKey, {
+      algorithms: ["HS256"],
+    });
+    return payload;
+  } catch (error) {
+    console.log(errorMessages["JWT_token_verify_fail"], error);
+    return null;
+  }
 }
 
 export async function deleteSession() {
