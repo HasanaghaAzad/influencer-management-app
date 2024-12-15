@@ -4,7 +4,6 @@ import { GetCurrentUser } from "@/app/types/users";
 import MenuButton from "@/components/ui/menu/button";
 import DropdownButton from "@/components/ui/menu/dropdownButton";
 import Menu from "@/components/ui/menu/menu";
-import MobileMenu from "@/components/ui/menu/mobileMenu";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
@@ -100,9 +99,6 @@ export function Header() {
                   )}
                 </Menu>
               </div>
-            </div>
-            <div className="-mr-2 flex md:hidden">
-              <MobileMenu items={navigation} />
             </div>
           </div>
         </div>

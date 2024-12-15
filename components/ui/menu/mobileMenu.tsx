@@ -3,7 +3,7 @@ import React, {useState} from "react";
 
 export default function MobileMenu({items}: {items: {label: string; href: string; current: boolean}[]}) {
   const [open, setOpen] = useState(false);
-
+  return false;
   return (
     <div>
       <button onClick={() => setOpen(!open)} id="navbarToggler" className={` ${open && "navbarTogglerActive"} absolute right-4 top-1/2 block -translate-y-1/2 rounded-lg px-3 py-[6px] ring-primary focus:ring-2 lg:hidden`}>
