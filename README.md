@@ -108,8 +108,7 @@ A successful response includes a token:
 }
 ```
 
-Set Cookies in Postman
-If Postman does not automatically set cookies:
+Set Cookies in Postman if Postman does not automatically set cookies:
 
 Copy the token from the login response.
 Manually add a cookie in Postman with the following format:
