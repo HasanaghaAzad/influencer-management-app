@@ -51,22 +51,33 @@ JWT_SECRET=
 JWT_TOKEN_EXPIRES=7d
 ```
 
-To generate a secure `JWT_SECRET`:
+### 3. Generate a JWT Secret
+Use the following command to generate a secure key for your application:
 ```bash
 openssl rand -base64 32
 ```
+
+Store the generated key in your .env file under the JWT_SECRET variable:
+
+```bash
+JWT_SECRET=your_secret_key  
+```
+
 
 For production, include:
 ```env
 PROD_DATABASE_URL=
 ```
 
-### 3. Install Dependencies and Run the App
+### 4. Install Dependencies
 
 Install required packages:
 ```bash
 npm install
 ```
+
+
+### 4. Run the App Locally
 
 Start the development server:
 ```bash
