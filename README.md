@@ -52,7 +52,7 @@ JWT_TOKEN_EXPIRES=7d
 ```
 
 ### 3. Generate a JWT Secret
-Use the following command to generate a secure key for your application:
+Use the following command to generate a secure key:
 ```bash
 openssl rand -base64 32
 ```
