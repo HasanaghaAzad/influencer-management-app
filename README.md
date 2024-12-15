@@ -129,6 +129,6 @@ GET: /api/influencers?influencerName=NAME&managerName=NAME
 
 ## Screenshots
 
-![Screenshot 1](screenshots/screenshot1.png)
-![Screenshot 2](screenshots/screenshot2.png)
-![Screenshot 3](screenshots/screenshot3.png)
+![Screenshot of Influencers List page](screenshots/influencers-list.png)
+![Screenshot of Create Influencer page](screenshots/create-influencer.png)
+![Screenshot of Login page](screenshots/screenshot3.png)
