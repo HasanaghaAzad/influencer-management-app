@@ -1,5 +1,4 @@
 import {NextResponse} from "next/server";
-
 import {errorMessages} from "@/app/lib/messages/errorMessages";
 import {authenticateUser} from "@/app/actions/auth";
 
