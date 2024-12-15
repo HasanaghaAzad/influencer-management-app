@@ -1,7 +1,7 @@
-import { InfluencerData } from "@/components/pages/influencers/influencersList";
 import {
   GetInfluencersFilters,
   GetInfluencersRouteResponse,
+  InfluencerData,
 } from "@/app/types/influencers";
 
 export const getInfluencers = async (filters?: GetInfluencersFilters) => {

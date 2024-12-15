@@ -9,25 +9,9 @@ import { useEffect, useState } from "react";
 import { setManager } from "@/app/actions/influencers/actions";
 import { AllUsersList } from "@/app/types/users";
 import { getAllUsers } from "@/app/services/frontend/userService";
+import { InfluencerData, InfluencersTableColumns } from "@/app/types/influencers";
+import { ToastMessage } from "@/components/ui/ToastMessage";
 
-export type InfluencerData = {
-  id: number;
-  firstName: string;
-  lastName: string;
-  instagramAccounts: string[];
-  tiktokAccounts: string[];
-  manager: {
-    id: number;
-    name: string;
-  };
-};
-type InfluencersTableColumns = {
-  firstName: { title: string };
-  lastName: { title: string };
-  instagramAccounts: { title: string };
-  tiktokAccounts: { title: string };
-  manager: { title: string };
-};
 
 export default function InfluencersList() {
   const influencersTableColumns: InfluencersTableColumns = {
@@ -57,12 +41,12 @@ export default function InfluencersList() {
   const loadInfluencers = async () => {
     setLoading(true);
     try {
-      const data = await getInfluencers(filters);
-      if (data.success) {
-        setInfluencers(data.data);
+      const fetchInfluencers = await getInfluencers(filters);
+      if (fetchInfluencers.success) {
+        setInfluencers(fetchInfluencers.data);
         setError("");
       } else {
-        setError(data?.error || "Failed to load influencers");
+        setError(fetchInfluencers?.error || "Failed to load influencers");
       }
     } catch (err) {
       setError((err as Error)?.message);
@@ -138,21 +122,11 @@ export default function InfluencersList() {
           </div>
         </form>
       </div>
-      {toastMessage && (
-        <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 p-4 bg-green-500 text-white rounded shadow-lg z-50">
-          <span>{toastMessage}</span>
-          <button
-            className="ml-4 bg-transparent text-white"
-            onClick={() => setToastMessage(null)}
-          >
-            &times;
-          </button>
-        </div>
-      )}
+      {toastMessage && (<ToastMessage message={toastMessage} onClose={() => setToastMessage(null)} />)}
       {loading ? (
-        <p className="mt-5 text-center text-gray-500">Loading...</p>
+        <p className="mt-10 text-center text-gray-500 py-14">Loading...</p>
       ) : error ? (
-        <p className="mt-5 text-center text-red-500">Error: {error}</p>
+        <p className="mt-10 text-center text-red-500 py-14">Error: {error}</p>
       ) : (
         <Table
           data={{
@@ -164,10 +138,11 @@ export default function InfluencersList() {
                   {row.instagramAccounts.map((ia, iaIndex) => (
                     <Link
                       href={"https://instagram.com/" + ia}
+                      target="blank"
                       key={iaIndex}
-                      className="block"
+                      className="bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 text-white font-extrabold py-2 px-6 rounded-lg shadow-lg hover:scale-105 transform transition-all inline-block m-2"
                     >
-                      {ia}
+                      @{ia}
                     </Link>
                   ))}
                 </div>
@@ -176,11 +151,12 @@ export default function InfluencersList() {
                 <div>
                   {row.tiktokAccounts.map((tk, tkIndex) => (
                     <Link
-                      href={"https://tiktok.com/" + tk}
+                      href={"https://tiktok.com/@" + tk}
+                      target="blank"
                       key={tkIndex}
-                      className="block"
+                      className="bg-black text-white font-bold py-2 px-6 rounded-lg shadow-lg hover:bg-gray-800 transition-colors inline-block m-2"
                     >
-                      {tk}
+                      @{tk}
                     </Link>
                   ))}
                 </div>

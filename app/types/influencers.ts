@@ -55,3 +55,22 @@ export interface GetInfluencersFilters {
   influencerName?: string;
   managerName?: string;
 };
+
+export type InfluencerData = {
+  id: number;
+  firstName: string;
+  lastName: string;
+  instagramAccounts: string[];
+  tiktokAccounts: string[];
+  manager: {
+    id: number;
+    name: string;
+  };
+};
+export type InfluencersTableColumns = {
+  firstName: { title: string };
+  lastName: { title: string };
+  instagramAccounts: { title: string };
+  tiktokAccounts: { title: string };
+  manager: { title: string };
+};
