@@ -1,10 +1,10 @@
 "use client";
 
 import React from "react";
-import {useRouter} from "next/navigation";
+import { useRouter } from "next/navigation";
 import LoginForm from "@/components/pages/login/LoginForm";
 
-const LoginPage: React.FC = () => {
+export default function LoginPage() {
   const router = useRouter();
 
   const handleLogin = async (email: string, password: string) => {
@@ -13,11 +13,11 @@ const LoginPage: React.FC = () => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({email, password}),
+      body: JSON.stringify({ email, password }),
     });
 
     if (!response.ok) {
-      const {error} = await response.json();
+      const { error } = await response.json();
       throw new Error(error || "Login failed");
     }
 
@@ -26,6 +26,4 @@ const LoginPage: React.FC = () => {
   };
 
   return <LoginForm onSubmit={handleLogin} />;
-};
-
-export default LoginPage;
+}
