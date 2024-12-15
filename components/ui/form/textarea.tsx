@@ -1,7 +1,7 @@
 import React from "react";
 import { Label } from "../shared/types/formTypes";
 
-const Textarea = ({
+export default function Textarea({
   name,
   value,
   label = { labelText: "Name", isVisible: true },
@@ -15,7 +15,7 @@ const Textarea = ({
   required: boolean;
   helperNote?: string;
   error?: string;
-}) => {
+}) {
   return (
     <div>
       <label htmlFor={name} className="block text-sm font-medium text-gray-700">
@@ -34,6 +34,4 @@ const Textarea = ({
       </div>
     </div>
   );
-};
-
-export default Textarea;
+}
