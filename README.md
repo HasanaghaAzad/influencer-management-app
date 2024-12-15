@@ -78,7 +78,6 @@ npm install
 
 ### 5. Run the Build Command
 
-Install required packages:
 ```bash
 npm run build
 ```
