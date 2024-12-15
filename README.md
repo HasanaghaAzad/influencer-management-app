@@ -30,6 +30,9 @@ These test accounts are available for login:
 ### 1. Clone the Repository
 ```bash
 git clone https://github.com/HasanaghaAzad/influencer-management-app.git
+```
+Go to root directory
+```bash
 cd influencer-management-app
 ```
 
@@ -82,8 +85,24 @@ npm install
 npm run build
 ```
 
+### 6. Run Knex Migrations
 
-### 6. Run the App Locally
+Before running the application, you need to set up the database schema and seed it with initial data:
+
+```bash
+npx knex migrate:latest
+```
+This command will run the latest migrations and create the required tables in the PostgreSQL database.
+
+Next, seed the database with initial data (two seed users for authentication):
+
+```bash
+npx knex seed:run
+```
+
+
+
+### 7. Run the App Locally
 
 Start the development server:
 ```bash
