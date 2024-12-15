@@ -1,9 +1,4 @@
-export interface GetCurrentUser {
-  id: number;
-  email: string;
-  first_name: string;
-  last_name: string;
-}
+import { GetCurrentUser } from "@/app/types/users";
 
 export const getCurrentUser = async (): Promise<GetCurrentUser> => {
   try {
