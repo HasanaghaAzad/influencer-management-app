@@ -76,8 +76,15 @@ Install required packages:
 npm install
 ```
 
+### 5. Run the Build Command
 
-### 4. Run the App Locally
+Install required packages:
+```bash
+npm run build
+```
+
+
+### 6. Run the App Locally
 
 Start the development server:
 ```bash
