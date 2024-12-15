@@ -11,11 +11,10 @@ const findDuplicates = (value: string) => {
   return duplicates;
 };
 
-// Utility function to validate unique accounts
 const validateUniqueAccounts = (fieldName: string) =>
   z
     .string()
-    .min(1, `${fieldName} accounts are required`) // Ensure not empty
+    .min(1, `${fieldName} accounts are required`)
     .superRefine((value, ctx) => {
       const duplicates = findDuplicates(value);
       if (duplicates.length > 0) {
@@ -28,7 +27,6 @@ const validateUniqueAccounts = (fieldName: string) =>
       }
     });
 
-// Zod schema using the reusable validation function
 export const influencerCreateVelidationSchema = z.object({
   firstName: z.string().min(1, "First name is required"),
   lastName: z.string().min(1, "Last name is required"),
