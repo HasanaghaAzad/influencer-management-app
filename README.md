@@ -8,7 +8,7 @@ A straightforward application for managing a list of influencers, including thei
 
 - **Next.js**: Version 15.0.3 with App Router  
 - **React**: Version 19  
-- **Tailwind CSS** and **Taigrids** for styling  
+- **Tailwind CSS** and **Tailgrids** for styling  
 - **Jose** for authentication  
 - **TypeScript** 
 
